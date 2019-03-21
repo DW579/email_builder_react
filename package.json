@@ -1,0 +1,24 @@
+{
+  "name": "hotwire_template_build_react",
+  "version": "1.0.0",
+  "description": "Build the current Hotwire mod library or a unique email from existing mods.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/omccreativeservices/hotwire_template_build_react.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/omccreativeservices/hotwire_template_build_react/issues"
+  },
+  "homepage": "https://github.com/omccreativeservices/hotwire_template_build_react#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
