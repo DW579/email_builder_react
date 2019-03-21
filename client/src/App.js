@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import logo from './images/oracle_logo.png';
 import './App.css';
 
 // class App extends Component {
@@ -30,7 +30,7 @@ class Nav extends Component {
     return (
       <div className="Nav">
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <a className="navbar-brand">Navbar Oarcle</a>
+          <img src={logo} alt="Oracle" />
         </nav>
       </div>
     );
