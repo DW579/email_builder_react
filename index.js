@@ -7,9 +7,13 @@ const app = express();
 app.use(express.static(path.join(__dirname, 'client/build')));
 
 // All API endpoints
-app.get('/', (req, res) => {
-  console.log("Data from the server");
-  res.send("Homepage is here");
+app.get('/data', (req, res) => {
+  const data = [
+    {id: 1, name: "John"},
+    {id: 2, name: "Sus"}
+  ];
+
+  res.json(data);
 });
 
 // The "catchall" handler: for any request that doesn't
@@ -22,4 +26,4 @@ app.get('*', (req, res) => {
 const port = process.env.PORT || 5000;
 app.listen(port);
 
-console.log(`Hotwire mod library build listening on port ${port}`);
+console.log(`Server listening on port ${port}`);
