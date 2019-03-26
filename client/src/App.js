@@ -62,31 +62,26 @@ class Nav extends Component {
   }
 }
 
+class Box extends Component {
+  render() {
+    return (
+      <div className="Box col-md-4">
+        <p>Lorem ipsum dolor sit amet, consect etur adipiscing elit. Maecenas ut felis id ex rhoncus aliquet donec efficitur quis.</p>
+      </div>
+    );
+  }
+}
+
 class Main extends Component {
   render() {
     return (
-      <div className="container-fluid">
+      <div className="Main container-fluid">
         <div className="row">
-          <div className="col-sm">
-            One of three columns
-          </div>
-          <div className="col-sm">
-            One of three columns
-          </div>
-          <div className="col-sm">
-            One of three columns
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-sm">
-            One of three columns
-          </div>
-          <div className="col-sm">
-            One of three columns
-          </div>
-          <div className="col-sm">
-            One of three columns
-          </div>
+          <div className="col-md-1"></div>
+          <Box></Box>
+          <div className="col-md-2"></div>
+          <Box></Box>
+          <div className="col-md-1"></div>
         </div>
       </div>
     );
