@@ -54,9 +54,40 @@ class Nav extends Component {
   render() {
     return (
       <div className="Nav">
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <img src={logo} alt="Oracle" />
+        <nav className="navbar navbar-expand-lg navbar-light">
+          <img src={logo} id="logo" alt="Oracle" />
         </nav>
+      </div>
+    );
+  }
+}
+
+class Main extends Component {
+  render() {
+    return (
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-sm">
+            One of three columns
+          </div>
+          <div className="col-sm">
+            One of three columns
+          </div>
+          <div className="col-sm">
+            One of three columns
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-sm">
+            One of three columns
+          </div>
+          <div className="col-sm">
+            One of three columns
+          </div>
+          <div className="col-sm">
+            One of three columns
+          </div>
+        </div>
       </div>
     );
   }
@@ -77,9 +108,10 @@ class Body extends Component {
     return (
       <div className="Body">
         <Nav></Nav>
+        <Main></Main>
         <Footer></Footer>
       </div>
-    )
+    );
   }
 }
 

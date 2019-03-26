@@ -1,3 +1,21 @@
+html, .Body {
+  background-color: #F6F6F6;
+}
+
+.Main {
+  flex: 1;
+  background: lightblue;
+}
+
+.navbar {
+  background-color: #FFFFFF;
+  padding: 0;
+}
+
+.Footer {
+  padding:10px;
+}
+
 .footer {
   background-color: #979797;
   color: #F6F6F6;
