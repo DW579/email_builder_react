@@ -14,12 +14,28 @@ html, .Body {
 .Box {
   background-color: #FFFFFF;
   border-radius: 25px;
-  padding: 0 10%;
+  padding: 0 8%;
   text-align: center;
 }
 
+.title {
+  font-size: 33px;
+  font-weight: bold;
+  color: #4C4C4C;
+}
+
 p {
-  margin: 0;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 21px;
+  margin: 15px 0;
+}
+
+.btn {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 24px;
+  background-color: #F80000;
+  border-color: #F80000;
+  margin-bottom: 10px;
 }
 
 .Footer {

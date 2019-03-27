@@ -2,29 +2,6 @@ import React, { Component } from 'react';
 import logo from './images/oracle_logo.png';
 import './App.css';
 
-// class App extends Component {
-//   render() {
-//     return (
-//       <div className="App">
-//         <header className="App-header">
-//           <img src={logo} className="App-logo" alt="logo" />
-//           <p>
-//             Edit <code>src/App.js</code> and save to reload.
-//           </p>
-//           <a
-//             className="App-link"
-//             href="https://reactjs.org"
-//             target="_blank"
-//             rel="noopener noreferrer"
-//           >
-//             Learn React
-//           </a>
-//         </header>
-//       </div>
-//     );
-//   }
-// }
-
 // class Nav extends Component {
 //   state = { data: [] }
 
@@ -62,14 +39,31 @@ class Nav extends Component {
   }
 }
 
-class Box extends Component {
-  render() {
-    return (
-      <div className="Box col-md-4">
-        <p>Lorem ipsum dolor sit amet, consect etur adipiscing elit. Maecenas ut felis id ex rhoncus aliquet donec efficitur quis.</p>
-      </div>
-    );
-  }
+function Image(props) {
+  return <i className={props.image}></i>;
+}
+
+function Title(props) {
+  return <h1 className="title">{props.title}</h1>;
+}
+
+function Text(props) {
+  return <p>{props.text}</p>;
+}
+
+function Button(props) {
+  return <button type="button" className="btn btn-danger">{props.button}</button>;
+}
+
+function Box(props) {
+  return(
+    <div className="Box col-md-4">
+      <Image image={props.image}></Image>
+      <Title title={props.title}></Title>
+      <Text text={props.text}></Text>
+      <Button button={props.button}></Button>
+    </div>
+  );
 }
 
 class Main extends Component {
@@ -78,9 +72,19 @@ class Main extends Component {
       <div className="Main container-fluid">
         <div className="row">
           <div className="col-md-1"></div>
-          <Box></Box>
+          <Box 
+            image={downloadBox.image} 
+            title={downloadBox.title} 
+            text={downloadBox.text} 
+            button={downloadBox.button}
+          ></Box>
           <div className="col-md-2"></div>
-          <Box></Box>
+          <Box 
+            image={uniqueBox.image} 
+            title={uniqueBox.title} 
+            text={uniqueBox.text} 
+            button={uniqueBox.button}
+          ></Box>
           <div className="col-md-1"></div>
         </div>
       </div>
@@ -96,6 +100,20 @@ class Footer extends Component {
       </div>
     )
   }
+}
+
+const downloadBox = {
+  image: 'fas fa-cloud-download-alt fa-7x',
+  title: 'Download Hotwire Library',
+  text: 'Lorem ipsum dolor sit amet, consect etur adipiscing elit. Maecenas ut felis id ex rhoncus aliquet donec efficitur quis.',
+  button: 'DOWNLOAD NOW'
+}
+
+const uniqueBox = {
+  image: 'fas fa-tools fa-7x',
+  title: 'Build Unique Email',
+  text: 'Lorem ipsum dolor sit amet, consect etur adipiscing elit. Maecenas ut felis id ex rhoncus aliquet donec efficitur quis.',
+  button: 'BUILD EMAIL'
 }
 
 class Body extends Component {
