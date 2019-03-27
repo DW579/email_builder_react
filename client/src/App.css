@@ -18,16 +18,21 @@ html, .Body {
   text-align: center;
 }
 
+i {
+  margin: 40px 0 0 0;
+}
+
 .title {
+  margin: 30px 0 0 0;
   font-size: 33px;
   font-weight: bold;
   color: #4C4C4C;
 }
 
-p {
+.text {
   font-family: Helvetica, Arial, sans-serif;
   font-size: 21px;
-  margin: 15px 0;
+  margin: 25px 0 0 0;
 }
 
 .btn {
@@ -35,7 +40,14 @@ p {
   font-size: 24px;
   background-color: #F80000;
   border-color: #F80000;
-  margin-bottom: 10px;
+  margin: 25px 0 0 0;
+}
+
+.date {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 19px;
+  color: #A0A0A0;
+  margin: 25px 0 40px 0;
 }
 
 .Footer {

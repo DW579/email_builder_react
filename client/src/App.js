@@ -48,20 +48,25 @@ function Title(props) {
 }
 
 function Text(props) {
-  return <p>{props.text}</p>;
+  return <p className="text">{props.text}</p>;
 }
 
 function Button(props) {
   return <button type="button" className="btn btn-danger">{props.button}</button>;
 }
 
+function Date(props) {
+  return <p className="date">{props.date}</p>
+}
+
 function Box(props) {
   return(
-    <div className="Box col-md-4">
+    <div className="Box col-lg-4">
       <Image image={props.image}></Image>
       <Title title={props.title}></Title>
       <Text text={props.text}></Text>
       <Button button={props.button}></Button>
+      <Date date={props.date}></Date>
     </div>
   );
 }
@@ -71,21 +76,22 @@ class Main extends Component {
     return (
       <div className="Main container-fluid">
         <div className="row">
-          <div className="col-md-1"></div>
+          <div className="col-lg-1"></div>
           <Box 
             image={downloadBox.image} 
             title={downloadBox.title} 
             text={downloadBox.text} 
             button={downloadBox.button}
+            date={downloadBox.date}
           ></Box>
-          <div className="col-md-2"></div>
+          <div className="col-lg-2"></div>
           <Box 
             image={uniqueBox.image} 
             title={uniqueBox.title} 
             text={uniqueBox.text} 
             button={uniqueBox.button}
           ></Box>
-          <div className="col-md-1"></div>
+          <div className="col-lg-1"></div>
         </div>
       </div>
     );
@@ -106,7 +112,8 @@ const downloadBox = {
   image: 'fas fa-cloud-download-alt fa-7x',
   title: 'Download Hotwire Library',
   text: 'Lorem ipsum dolor sit amet, consect etur adipiscing elit. Maecenas ut felis id ex rhoncus aliquet donec efficitur quis.',
-  button: 'DOWNLOAD NOW'
+  button: 'DOWNLOAD NOW',
+  date: 'LAST UPDATED 02/05/2019'
 }
 
 const uniqueBox = {
