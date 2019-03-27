@@ -55,8 +55,20 @@ function Button(props) {
   return <button type="button" className="btn btn-danger">{props.button}</button>;
 }
 
-function Date(props) {
-  return <p className="date">{props.date}</p>
+class Date extends Component {
+  state = { data: [] }
+
+  componentDidMount() {
+    fetch('/data')
+      .then(res => res.json())
+      .then(data => this.setState({ data }));
+  }
+
+  render() {
+    return (
+      <p className="date">LAST UPDATED {this.state.data}</p>
+    );
+  }
 }
 
 function Box(props) {
@@ -66,7 +78,7 @@ function Box(props) {
       <Title title={props.title}></Title>
       <Text text={props.text}></Text>
       <Button button={props.button}></Button>
-      <Date date={props.date}></Date>
+      <Date></Date>
     </div>
   );
 }
@@ -82,7 +94,6 @@ class Main extends Component {
             title={downloadBox.title} 
             text={downloadBox.text} 
             button={downloadBox.button}
-            date={downloadBox.date}
           ></Box>
           <div className="col-lg-2"></div>
           <Box 
@@ -112,8 +123,7 @@ const downloadBox = {
   image: 'fas fa-cloud-download-alt fa-7x',
   title: 'Download Hotwire Library',
   text: 'Lorem ipsum dolor sit amet, consect etur adipiscing elit. Maecenas ut felis id ex rhoncus aliquet donec efficitur quis.',
-  button: 'DOWNLOAD NOW',
-  date: 'LAST UPDATED 02/05/2019'
+  button: 'DOWNLOAD NOW'
 }
 
 const uniqueBox = {

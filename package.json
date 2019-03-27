@@ -20,6 +20,9 @@
   },
   "homepage": "https://github.com/omccreativeservices/hotwire_template_build_react#readme",
   "dependencies": {
-    "express": "^4.16.4"
+    "dotenv": "^7.0.0",
+    "express": "^4.16.4",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4"
   }
 }
