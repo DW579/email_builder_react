@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import logo from './images/oracle_logo.png';
+import loadingIcon from './images/loading.gif';
 import './App.css';
 
 class Nav extends Component {
@@ -27,7 +28,7 @@ function Text(props) {
 }
 
 function Button(props) {
-  return <button type="button" className="btn btn-danger" onClick={Lightbox}>{props.button}</button>;
+  return <button type="button" className="btn btn-danger redBtn" onClick={Lightbox}>{props.button}</button>;
 }
 
 class Date extends Component {
@@ -54,22 +55,53 @@ class Lightbox extends Component {
   }
 
   handleClick() {
-    console.log(this.state.displayOn);
     this.setState(state => ({
       displayOn: !state.displayOn
     }));
   }
 
+  fetchLibrary() {
+    console.log("Fetch the library");
+    fetch('/library')
+  }
+
   render() {
     return (
       <div className="Lightbox">
-        <button onClick={this.handleClick}>
-          click
+        <button type="button" className="btn btn-danger redBtn" onClick={this.fetchLibrary}>
+          FETCH LIBRARY
+        </button>
+        <button type="button" className="btn btn-danger redBtn" onClick={this.handleClick}>
+          DOWNLOAD NOW
         </button>
         <div className="modal" style={{display: this.state.displayOn ? 'none' : 'block'}}>
-          <div className="modalBox">
-            <span className="close cursor" onClick={this.handleClick}>&times;</span>
-            Inside of modalBox
+          <div className="modalBox container">
+            <div className="row">
+              <div className="col-sm"></div>
+              <div className="col-sm"></div>
+              <div className="col-sm">
+                <div className="close" onClick={this.handleClick}>&times;</div>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-sm">
+              </div>
+              <div className="col-sm">
+                <img src={loadingIcon} alt="" />
+              </div>
+              <div className="col-sm">
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-sm">
+              </div>
+              <div className="col-sm">
+                <h1 className="title">Download In Progress</h1>
+                <p className="text">Lorem ipsum dolor sit amet, consect etur adipiscing elit. Maecenas ut felis id ex rhoncus aliquet donec efficitur quis.</p>
+              </div>
+              <div className="col-sm">
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -77,19 +109,15 @@ class Lightbox extends Component {
   }
 }
 
-// function Lightbox() {
-//   return <h1 className="lightbox" >This is Lightbox</h1>;
-// }
-
 function Box(props) {
   return(
     <div className="Box col-lg-4">
       <Image image={props.image}></Image>
       <Title title={props.title}></Title>
       <Text text={props.text}></Text>
-      <Button button={props.button}></Button>
-      <Date></Date>
+      {/* <Button button={props.button}></Button> */}
       <Lightbox></Lightbox>
+      <Date></Date>
     </div>
   );
 }

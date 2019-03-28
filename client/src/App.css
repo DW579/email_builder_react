@@ -35,7 +35,7 @@ i {
   margin: 25px 0 0 0;
 }
 
-.btn {
+.redBtn {
   font-family: Helvetica, Arial, sans-serif;
   font-size: 24px;
   background-color: #F80000;
@@ -67,10 +67,25 @@ i {
   position: relative;
   background-color: #ffffff;
   margin: auto;
-  padding: 0;
+  padding: 0 0 100px 0;
   width: 90%;
   max-width: 1200px;
   border-radius: 25px;
+}
+
+/* The Close Button */
+.close {
+  color: #030303;
+  padding-right: 15px;
+  font-size: 50px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #999;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .Footer {
