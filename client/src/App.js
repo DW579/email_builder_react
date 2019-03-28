@@ -2,31 +2,6 @@ import React, { Component } from 'react';
 import logo from './images/oracle_logo.png';
 import './App.css';
 
-// class Nav extends Component {
-//   state = { data: [] }
-
-//   componentDidMount() {
-//     fetch('/data')
-//       .then(res => res.json())
-//       .then(data => this.setState({ data }));
-//   }
-//   render() {
-//     return (
-//       <div className="Nav">
-//         <nav className="navbar navbar-expand-lg navbar-light bg-light">
-//           <img src={logo} alt="Oracle" />
-//         </nav>
-//         <div className="Data">
-//           <h1>Data</h1>
-//           {this.state.data.map(data =>
-//             <div key={data.id}>{data.name}</div>
-//           )}
-//         </div>
-//       </div>
-//     );
-//   }
-// }
-
 class Nav extends Component {
   render() {
     return (
@@ -52,7 +27,7 @@ function Text(props) {
 }
 
 function Button(props) {
-  return <button type="button" className="btn btn-danger">{props.button}</button>;
+  return <button type="button" className="btn btn-danger" onClick={Lightbox}>{props.button}</button>;
 }
 
 class Date extends Component {
@@ -71,6 +46,40 @@ class Date extends Component {
   }
 }
 
+class Lightbox extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {displayOn: true};
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    console.log(this.state.displayOn);
+    this.setState(state => ({
+      displayOn: !state.displayOn
+    }));
+  }
+
+  render() {
+    return (
+      <div className="Lightbox">
+        <button onClick={this.handleClick}>
+          click
+        </button>
+        <div className="modal" style={{display: this.state.displayOn ? 'none' : 'block'}}>
+          <div className="modalBox">
+            Inside of modalBox
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+// function Lightbox() {
+//   return <h1 className="lightbox" >This is Lightbox</h1>;
+// }
+
 function Box(props) {
   return(
     <div className="Box col-lg-4">
@@ -79,6 +88,7 @@ function Box(props) {
       <Text text={props.text}></Text>
       <Button button={props.button}></Button>
       <Date></Date>
+      <Lightbox></Lightbox>
     </div>
   );
 }

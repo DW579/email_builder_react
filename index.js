@@ -22,11 +22,6 @@ const optionDate = {
 
 // All API endpoints
 app.get('/data', (req, res) => {
-  // const data = [
-  //   {id: 1, name: "John"},
-  //   {id: 2, name: "Sus"}
-  // ];
-
   let date = "";
 
   rp(optionDate)
@@ -35,7 +30,6 @@ app.get('/data', (req, res) => {
               date += data.updated_at[i];
           }
 
-          // res.render('library_build', { date: date });
           res.json(date);
       })
       .catch(function (err) {
@@ -44,8 +38,6 @@ app.get('/data', (req, res) => {
 
           // res.render('library_build', { date: date });
       })
-
-  // res.json(data);
 });
 
 // The "catchall" handler: for any request that doesn't
