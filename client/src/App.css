@@ -59,16 +59,18 @@ i {
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: black;
+  background-color: grey;
+  opacity: 0.8;
 }
 
 .modalBox {
   position: relative;
-  background-color: #fefefe;
+  background-color: #ffffff;
   margin: auto;
   padding: 0;
   width: 90%;
   max-width: 1200px;
+  border-radius: 25px;
 }
 
 .Footer {

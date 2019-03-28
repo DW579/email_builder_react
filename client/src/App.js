@@ -68,6 +68,7 @@ class Lightbox extends Component {
         </button>
         <div className="modal" style={{display: this.state.displayOn ? 'none' : 'block'}}>
           <div className="modalBox">
+            <span className="close cursor" onClick={this.handleClick}>&times;</span>
             Inside of modalBox
           </div>
         </div>
