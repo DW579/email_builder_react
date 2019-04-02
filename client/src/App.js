@@ -63,6 +63,7 @@ class Lightbox extends Component {
   fetchLibrary() {
     console.log("Fetch the library");
     fetch('/library')
+      .then(console.log(this))
   }
 
   render() {
