@@ -35,7 +35,7 @@ class Date extends Component {
   state = { data: [] }
 
   componentDidMount() {
-    fetch('/data')
+    fetch('/date')
       .then(res => res.json())
       .then(data => this.setState({ data }));
   }
@@ -60,18 +60,9 @@ class Lightbox extends Component {
     }));
   }
 
-  fetchLibrary() {
-    console.log("Fetch the library");
-    fetch('/library')
-      .then(console.log(this))
-  }
-
   render() {
     return (
       <div className="Lightbox">
-        <button type="button" className="btn btn-danger redBtn" onClick={this.fetchLibrary}>
-          FETCH LIBRARY
-        </button>
         <button type="button" className="btn btn-danger redBtn" onClick={this.handleClick}>
           DOWNLOAD NOW
         </button>

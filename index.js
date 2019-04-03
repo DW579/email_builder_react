@@ -23,9 +23,19 @@ var optionDate = {
 };
 
 // All API endpoints
-app.get('/data', (req, res) => {
+app.get('/date', (req, res) => {
   // Non-production date, so that I am not wasting API calls to GitHub
   let date = "2019-03-14";
+
+  fs.readFile('./whole_mod_library/date.json', 'utf8', (err, data) => {
+    if (err) {
+      throw err;
+    }
+
+    const lastUpdate = JSON.parse(data).lastUpdate;
+
+    console.log(lastUpdate);
+  });
 
   res.json(date);
 
