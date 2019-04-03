@@ -24,37 +24,40 @@ var optionDate = {
 
 // All API endpoints
 app.get('/date', (req, res) => {
-  // Non-production date, so that I am not wasting API calls to GitHub
-  let date = "2019-03-14";
 
-  fs.readFile('./whole_mod_library/date.json', 'utf8', (err, data) => {
+  fs.readFile('./whole_mod_library/modLibraryDate.json', 'utf8', (err, data) => {
     if (err) {
       throw err;
     }
 
     const modLibraryDate = JSON.parse(data).modLibraryDate;
 
-    console.log(modLibraryDate);
+    rp(optionDate)
+      .then(function (data) {
+
+        if(data.updated_at !== modLibraryDate) {
+          const month = data.updated_at.slice(5, 7);
+          const day = data.updated_at.slice(8, 10);
+          const year = data.updated_at.slice(0, 4);
+          const dateOfUpdate = month + "/" + day + "/" + year;
+
+          console.log(dateOfUpdate);
+          res.json(dateOfUpdate);
+        }
+        else {
+          console.log("GitHub and Server dates are same for mod library");
+          res.json("03/14/2019");
+        }
+
+      })
+      .catch(function (err) {
+
+          console.log("Error thrown for getting the date from GitHub");
+          throw err;
+          
+      })
   });
 
-  res.json(date);
-
-  // let date = "";
-
-  // rp(optionDate)
-  //     .then(function (data) {
-  //         for (var i = 0; i < 10; i++) {
-  //             date += data.updated_at[i];
-  //         }
-
-  //         res.json(date);
-  //     })
-  //     .catch(function (err) {
-  //         console.log("Error thrown for getting the date");
-  //         date = "Error with API GET request of date";
-
-  //         // res.render('library_build', { date: date });
-  //     })
 });
 
 // The "catchall" handler: for any request that doesn't

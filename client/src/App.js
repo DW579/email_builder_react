@@ -27,22 +27,45 @@ function Text(props) {
   return <p className="text">{props.text}</p>;
 }
 
-function Button(props) {
-  return <button type="button" className="btn btn-danger redBtn" onClick={Lightbox}>{props.button}</button>;
-}
+// function Button(props) {
+//   return <button type="button" className="btn btn-danger redBtn" onClick={Lightbox}>{props.button}</button>;
+// }
 
 class Date extends Component {
-  state = { data: [] }
+  state = { date: [] }
+
+  handleClick() {
+    this.setState(state => ({
+      displayOn: !state.displayOn
+    }));
+  }
 
   componentDidMount() {
     fetch('/date')
       .then(res => res.json())
-      .then(data => this.setState({ data }));
+      // .then(data => this.setState({ data }));
+      .then(date => {
+        if(date === "2019-03-14") {
+          const loadingLibrary = new Promise(function(resolve, reject) {
+            console.log("Loading in progress");
+            resolve();
+          });
+
+          return loadingLibrary
+            .then(date => {
+              console.log(this);
+              this.setState({ date });
+            })
+        }
+        else {
+          console.log(date)
+        }
+      });
   }
 
   render() {
     return (
-      <p className="date">LAST UPDATED {this.state.data}</p>
+      <p className="date">LAST UPDATED {this.state.date}</p>
     );
   }
 }
@@ -103,13 +126,12 @@ class Lightbox extends Component {
 
 function Box(props) {
   return(
-    <div className="Box col-lg-4">
+    <div>
       <Image image={props.image}></Image>
       <Title title={props.title}></Title>
       <Text text={props.text}></Text>
       {/* <Button button={props.button}></Button> */}
       <Lightbox></Lightbox>
-      <Date></Date>
     </div>
   );
 }
@@ -120,19 +142,25 @@ class Main extends Component {
       <div className="Main container-fluid">
         <div className="row">
           <div className="col-lg-1"></div>
-          <Box 
-            image={downloadBox.image} 
-            title={downloadBox.title} 
-            text={downloadBox.text} 
-            button={downloadBox.button}
-          ></Box>
+          <div className="Box col-lg-4">
+            <Box 
+              image={downloadBox.image} 
+              title={downloadBox.title} 
+              text={downloadBox.text} 
+              button={downloadBox.button}
+            ></Box>
+            <Date></Date>
+          </div>
+          
           <div className="col-lg-2"></div>
-          <Box 
-            image={uniqueBox.image} 
-            title={uniqueBox.title} 
-            text={uniqueBox.text} 
-            button={uniqueBox.button}
-          ></Box>
+          <div className="Box col-lg-4">
+            <Box 
+              image={uniqueBox.image} 
+              title={uniqueBox.title} 
+              text={uniqueBox.text} 
+              button={uniqueBox.button}
+            ></Box>
+          </div>
           <div className="col-lg-1"></div>
         </div>
       </div>
