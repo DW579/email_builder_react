@@ -32,9 +32,9 @@ app.get('/date', (req, res) => {
       throw err;
     }
 
-    const lastUpdate = JSON.parse(data).lastUpdate;
+    const modLibraryDate = JSON.parse(data).modLibraryDate;
 
-    console.log(lastUpdate);
+    console.log(modLibraryDate);
   });
 
   res.json(date);
