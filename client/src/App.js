@@ -32,40 +32,58 @@ function Text(props) {
 // }
 
 class Date extends Component {
-  state = { date: [] }
-
-  handleClick() {
-    this.setState(state => ({
-      displayOn: !state.displayOn
-    }));
+  state = { 
+    date: [],
+    displayOn: true,
+    closeButton: false
   }
 
+  // Once endpoint '/date' on server has finished it's GET calls and compared dates and downloaded mod library from GitHub, then turn off progress bar
   componentDidMount() {
     fetch('/date')
       .then(res => res.json())
-      // .then(data => this.setState({ data }));
       .then(date => {
-        if(date === "2019-03-14") {
-          const loadingLibrary = new Promise(function(resolve, reject) {
-            console.log("Loading in progress");
-            resolve();
-          });
-
-          return loadingLibrary
-            .then(date => {
-              console.log(this);
-              this.setState({ date });
-            })
-        }
-        else {
-          console.log(date)
-        }
-      });
+        this.setState({ displayOn: false })
+        this.setState({ date })
+      })
   }
 
   render() {
     return (
-      <p className="date">LAST UPDATED {this.state.date}</p>
+      <div>
+        <p className="date">LAST UPDATED {this.state.date}</p>
+        <div className="modal" style={{display: this.state.displayOn ? 'block' : 'none'}}>
+          <div className="modalBox container">
+            <div className="row" style={{display: this.state.closeButton ? 'block' : 'none'}}>
+              <div className="col-sm"></div>
+              <div className="col-sm"></div>
+              <div className="col-sm">
+                <div className="close" onClick={this.handleClick}>&times;</div>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-sm">
+              </div>
+              <div className="col-sm">
+                <img src={loadingIcon} alt="" />
+              </div>
+              <div className="col-sm">
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-sm">
+              </div>
+              <div className="col-sm">
+                <h1 className="title">Checking to see if Library is up to date</h1>
+                <p className="text">Lorem ipsum dolor sit amet, consect etur adipiscing elit. Maecenas ut felis id ex rhoncus aliquet donec efficitur quis.</p>
+              </div>
+              <div className="col-sm">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
     );
   }
 }

@@ -25,6 +25,7 @@ var optionDate = {
 // All API endpoints
 app.get('/date', (req, res) => {
 
+  // Read modLibraryDate.json to know the date of mob library on local server
   fs.readFile('./whole_mod_library/modLibraryDate.json', 'utf8', (err, data) => {
     if (err) {
       throw err;
@@ -32,21 +33,27 @@ app.get('/date', (req, res) => {
 
     const modLibraryDate = JSON.parse(data).modLibraryDate;
 
+    // Simplify the date on server of mod library to format: 00/00/0000
+    function serverLibraryDate() {
+      const serverDate = modLibraryDate.slice(5, 7) + "/" + modLibraryDate.slice(8, 10) + "/" + modLibraryDate.slice(0, 4);
+
+      return serverDate;
+    }
+
+    // GET request to GitHub for date of mod library's last update
     rp(optionDate)
       .then(function (data) {
 
+        // Compare GitHub date and Server date, if !== then delete library on server and GET request library from GitHub
         if(data.updated_at !== modLibraryDate) {
-          const month = data.updated_at.slice(5, 7);
-          const day = data.updated_at.slice(8, 10);
-          const year = data.updated_at.slice(0, 4);
-          const dateOfUpdate = month + "/" + day + "/" + year;
+          const dateOfUpdate = data.updated_at.slice(5, 7) + "/" + data.updated_at.slice(8, 10) + "/" + data.updated_at.slice(0, 4);
 
           console.log(dateOfUpdate);
           res.json(dateOfUpdate);
         }
         else {
           console.log("GitHub and Server dates are same for mod library");
-          res.json("03/14/2019");
+          res.json(serverLibraryDate());
         }
 
       })
