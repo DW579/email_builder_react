@@ -48,7 +48,12 @@ app.get('/date', (req, res) => {
         if(data.updated_at !== modLibraryDate) {
           const dateOfUpdate = data.updated_at.slice(5, 7) + "/" + data.updated_at.slice(8, 10) + "/" + data.updated_at.slice(0, 4);
 
-          console.log(dateOfUpdate);
+          // Delete old library on server and then download up to date library from GitHub
+
+
+          // After up to date library from GitHub is finished being downloaded into server, update modLibraryDate.json with current date
+
+          console.log("Sent current date to front end, App.js");
           res.json(dateOfUpdate);
         }
         else {
