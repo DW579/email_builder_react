@@ -38,7 +38,7 @@ class Date extends Component {
     closeButton: false
   }
 
-  // Once endpoint '/date' on server has finished it's GET calls and compared dates and downloaded mod library from GitHub, then turn off progress bar
+  // Once endpoint '/date' on server has finished it's GET calls by comparing dates and downloading mod library from GitHub, then turn off progress bar here on frontend
   componentDidMount() {
     fetch('/date')
       .then(res => res.json())

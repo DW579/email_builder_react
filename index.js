@@ -47,14 +47,132 @@ app.get('/date', (req, res) => {
         // Compare GitHub date and Server date, if !== then delete library on server and GET request library from GitHub
         if(data.updated_at !== modLibraryDate) {
           const dateOfUpdate = data.updated_at.slice(5, 7) + "/" + data.updated_at.slice(8, 10) + "/" + data.updated_at.slice(0, 4);
+          // Variables for deleting and downloading libraries
+
 
           // Delete old library on server and then download up to date library from GitHub
+          // Promises for deleting
+          const deleteImages = new Promise(function(resolve, reject) {
+            fs.readdir(__dirname + '/whole_mod_library/mods/images', function (err, data) {
+              if(err) {
+                console.log("Error with reading images from mods folder");
+                throw err;
+              }
+
+              if(data.length > 0) {
+                for(var i = 0; i < data.length; i++) {
+                  fs.unlink(__dirname + '/whole_mod_library/mods/images/' + data[i], function (err) {
+                      if(err) {
+                        throw err;
+                      }
+                      console.log(data[i] + " deleted");
+                  });
+                }
+              }
+
+              resolve();
+            })
+          })
+          const deleteMods = new Promise(function(resolve, reject) {
+            fs.readdir(__dirname + '/whole_mod_library/mods', function (err, data) {
+              if(err) {
+                console.log("Error with readding mods folder");
+                throw err;
+              }
+
+              if(data.length > 0) {
+                for(var i = 0; i < data.length; i++) {
+                  if(data[i] !== "images") {
+                    fs.unlink(__dirname + '/whole_mod_library/mods/' + data[i], function (err) {
+                      if(err) {
+                        throw err;
+                      }
+                      console.log(data[i] + " deleted");
+                    });
+                  }
+                }
+              }
+
+              resolve();
+            })
+          });
+          const deleteCssMods = new Promise(function(resolve, reject) {
+            fs.readdir(__dirname + '/whole_mod_library/mods_css', function (err, data) {
+              if(err) {
+                console.log("Error with readding mods_css folder");
+                throw err;
+              }
+
+              if(data.length > 0) {
+                for(var i = 0; i < data.length; i++) {
+                  fs.unlink(__dirname + '/whole_mod_library/mods_css/' + data[i], function (err) {
+                      if(err) {
+                        throw err;
+                      }
+                      console.log(data[i] + " deleted");
+                  });
+                }
+              }
+
+              resolve();
+            })
+          });
+          const deleteLibraryPieces = new Promise(function(resolve, reject) {
+            fs.readdir(__dirname + '/whole_mod_library/library_pieces', function (err, data) {
+              if(err) {
+                console.log("Error with readding library_pieces folder");
+                throw err;
+              }
+
+              if(data.length > 0) {
+                for(var i = 0; i < data.length; i++) {
+                  fs.unlink(__dirname + '/whole_mod_library/library_pieces/' + data[i], function (err) {
+                      if(err) {
+                        throw err;
+                      }
+                      console.log(data[i] + " deleted");
+                  });
+                }
+              }
+
+              resolve();
+            })
+          });
+          const deleteLinkDocs = new Promise(function(resolve, reject) {
+            fs.unlink(__dirname + '/whole_mod_library/HW_MT_LINK_COMPLETE.xls', function (err) {
+              if(err) {
+                throw err;
+              }
+
+              console.log("HW_MT_LINK_COMPLETE.xls deleted");
+            });
+
+            fs.unlink(__dirname + '/whole_mod_library/HW_MT_LINK_SHELL.xls', function (err) {
+              if(err) {
+                throw err;
+              }
+
+              console.log("HW_MT_LINK_SHELL.xls deleted");
+            });
+
+            resolve();
+          });
 
 
-          // After up to date library from GitHub is finished being downloaded into server, update modLibraryDate.json with current date
 
-          console.log("Sent current date to front end, App.js");
-          res.json(dateOfUpdate);
+          // Promise and then statements to delete all the old library files on the server
+          return deleteImages.then(function() {
+            return deleteMods.then(function() {
+              return deleteCssMods.then(function() {
+                return deleteLibraryPieces.then(function() {
+                  return deleteLinkDocs.then(function() {
+                    console.log("Sent current date to front end, App.js");
+                    res.json(dateOfUpdate);
+                  })
+                })
+              })
+            })
+          })
         }
         else {
           console.log("GitHub and Server dates are same for mod library");
