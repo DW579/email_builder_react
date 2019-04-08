@@ -4,7 +4,6 @@ const rp = require('request-promise');
 require('dotenv').config()
 const fs = require('fs');
 const zip = require('express-zip');
-
 const app = express();
 
 // Serve static files from the React app
@@ -47,6 +46,7 @@ app.get('/date', (req, res) => {
         // Compare GitHub date and Server date, if !== then delete library on server and GET request library from GitHub
         if(data.updated_at !== modLibraryDate) {
           const dateOfUpdate = data.updated_at.slice(5, 7) + "/" + data.updated_at.slice(8, 10) + "/" + data.updated_at.slice(0, 4);
+          const gitHubDate = data.updated_at;
           // Variables for deleting and downloading libraries
 
 
@@ -421,6 +421,10 @@ app.get('/date', (req, res) => {
                                       return rp(getLinkDocShell).then(function(results) {
                                         const buff = Buffer.alloc(results.size, results.content, 'base64');
                                         const text = buff.toString("ascii");
+                                        const newDate = {
+                                          "modLibraryDate": gitHubDate
+                                        }
+                                        const dateStringify = JSON.stringify(newDate, null, 2);
 
                                         fs.appendFileSync(__dirname + '/whole_mod_library/' + results.path, text, function (err) {
                                           if (err) {
@@ -428,6 +432,21 @@ app.get('/date', (req, res) => {
                                             throw err;
                                           }
                                           console.log('Saved ' + results.name + ' in folder /whole_mod_library/' + results.path);
+                                        });
+
+                                        // Delete and Write modLibraryDate.json to update the date
+                                        fs.unlink(__dirname + '/whole_mod_library/modLibraryDate.json', (err) => {
+                                          if(err) {
+                                            throw err;
+                                          }
+                                          console.log('modLibraryDate.json was deleted');
+
+                                          fs.writeFile(__dirname + '/whole_mod_library/modLibraryDate.json', dateStringify, (err) => {  
+                                            if(err) {
+                                              throw err;
+                                            }
+                                            console.log('newDate written to modLibraryDate.json');
+                                          });
                                         });
 
                                         console.log("Sent current date to front end, App.js");
