@@ -157,6 +157,17 @@ app.get('/date', (req, res) => {
 
             resolve();
           });
+          // API header options for GitHub API and downloading the library files
+          var getLibraryPieces = {
+            method: 'GET',
+            url: 'https://api.github.com/repos/omccreativeservices/hotwire_template/contents/library_pieces',
+            headers: {
+                'cache-control': 'no-cache',
+                Authorization: process.env.githubKey,
+                'user-agent': 'Request-Promise'
+            },
+            json: true
+          };
 
 
 
@@ -166,25 +177,97 @@ app.get('/date', (req, res) => {
               return deleteCssMods.then(function() {
                 return deleteLibraryPieces.then(function() {
                   return deleteLinkDocs.then(function() {
-                    console.log("Sent current date to front end, App.js");
-                    res.json(dateOfUpdate);
+                    // GET requests for mod library download
+                    // GET library_pieces files
+                    return rp(getLibraryPieces).then(function(data) {
+                      let allPromises = [];
+
+                      for(let i = 0; i < data.length; i++) {
+                        const getHeader = {
+                          method: 'GET',
+                          url: 'https://api.github.com/repos/omccreativeservices/hotwire_template/contents/library_pieces/' + data[i].name,
+                          headers: {
+                              'cache-control': 'no-cache',
+                              Authorization: process.env.githubKey,
+                              'user-agent': 'Request-Promise'
+                          },
+                          json: true
+                        }
+                        const getPromise = new Promise(function (resolve, reject) {
+                          rp(getHeader).then(function(results) {
+                            const buff = Buffer.alloc(results.size, results.content, 'base64');
+                            const text = buff.toString("ascii");
+
+                            fs.appendFileSync(__dirname + '/whole_mod_library/' + results.path, text, function (err) {
+                              if (err) {
+                                console.log("Error with writing file " + results.name);
+                                throw err;
+                              }
+                              console.log('Saved ' + results.name + ' in folder /whole_mod_library/' + results.path);
+                            });
+                          })
+                          .catch(function(err) {
+                            console.log("Error with promise GET call to " + data[i].name);
+                            throw err;
+                          })
+
+                          resolve();
+                        })
+
+                        allPromises.push(getPromise);
+                      }
+
+                      // Promise.all for library_pieces
+                      return Promise.all(allPromises).then(function(results) {
+                        console.log("Promise.all for library_pieces is finished");
+
+                        console.log("Sent current date to front end, App.js");
+                        res.json(dateOfUpdate);
+                      })
+                      .catch(function(err) {
+                        console.log("Error on Promise.all for library_pieces");
+                        throw err;
+                      })
+                    })
+                    .catch(function(err) {
+                      console.log("Error with GET call to library_pieces folder");
+                      throw err;
+                    })
+                  })
+                  .catch(function(err) {
+                    console.log("Error with deleteLinkDocs");
+                    throw err;
                   })
                 })
+                .catch(function(err) {
+                  console.log("Error with deleteLibraryPieces");
+                  throw err;
+                })
+              })
+              .catch(function(err) {
+                console.log("Error with deleteCssMods");
+                throw err;
               })
             })
+            .catch(function(err) {
+              console.log("Error with deleteMods");
+              throw err;  
+            })
           })
+          .catch(function(err) {
+            console.log("Error with deleteImages");
+            throw err;    
+          })
+
         }
         else {
           console.log("GitHub and Server dates are same for mod library");
           res.json(serverLibraryDate());
         }
-
       })
       .catch(function (err) {
-
-          console.log("Error thrown for getting the date from GitHub");
-          throw err;
-          
+        console.log("Error thrown for getting the date from GitHub");
+        throw err;
       })
   });
 
