@@ -157,6 +157,7 @@ app.get('/date', (req, res) => {
 
             resolve();
           });
+
           // API header options for GitHub API and downloading the library files
           const getLibraryPieces = {
             method: 'GET',
@@ -198,6 +199,27 @@ app.get('/date', (req, res) => {
             },
             json: true
           };
+          const getLinkDocComplete = {
+            method: 'GET',
+            url: 'https://api.github.com/repos/omccreativeservices/hotwire_template/contents/HW_MT_LINK_COMPLETE.xls',
+            headers: {
+                'cache-control': 'no-cache',
+                Authorization: process.env.githubKey,
+                'user-agent': 'Request-Promise'
+            },
+            json: true
+          };
+          const getLinkDocShell = {
+            method: 'GET',
+            url: 'https://api.github.com/repos/omccreativeservices/hotwire_template/contents/HW_MT_LINK_SHELL.xls',
+            headers: {
+                'cache-control': 'no-cache',
+                Authorization: process.env.githubKey,
+                'user-agent': 'Request-Promise'
+            },
+            json: true
+          };
+          
 
 
 
@@ -382,8 +404,43 @@ app.get('/date', (req, res) => {
                                   return Promise.all(allPromises).then(function(results) {
                                     console.log("Promise.all for mods is finished");
 
-                                    console.log("Sent current date to front end, App.js");
-                                    res.json(dateOfUpdate);
+                                    // GET Link Doc Complete
+                                    return rp(getLinkDocComplete).then(function(results) {
+                                      const buff = Buffer.alloc(results.size, results.content, 'base64');
+                                      const text = buff.toString("ascii");
+
+                                      fs.appendFileSync(__dirname + '/whole_mod_library/' + results.path, text, function (err) {
+                                        if (err) {
+                                          console.log("Error with writing file " + results.name);
+                                          throw err;
+                                        }
+                                        console.log('Saved ' + results.name + ' in folder /whole_mod_library/' + results.path);
+                                      });
+
+                                      // GET Link Doc Shell
+                                      return rp(getLinkDocShell).then(function(results) {
+                                        const buff = Buffer.alloc(results.size, results.content, 'base64');
+                                        const text = buff.toString("ascii");
+
+                                        fs.appendFileSync(__dirname + '/whole_mod_library/' + results.path, text, function (err) {
+                                          if (err) {
+                                            console.log("Error with writing file " + results.name);
+                                            throw err;
+                                          }
+                                          console.log('Saved ' + results.name + ' in folder /whole_mod_library/' + results.path);
+                                        });
+
+                                        console.log("Sent current date to front end, App.js");
+                                        res.json(dateOfUpdate);
+                                      })
+                                      .catch(function(err) {
+                                        console.log("Erro with GET of Link Doc Shell")
+                                      })
+                                    })
+                                    .catch(function(err) {
+                                      console.log("Error with GET of Link Doc Complete");
+                                      throw err;
+                                    })
                                   })
                                   .catch(function(err) {
                                     console.log("Error with Promise.all for files to mods folder");
