@@ -188,6 +188,16 @@ app.get('/date', (req, res) => {
             },
             json: true
           };
+          const getMods = {
+            method: 'GET',
+            url: 'https://api.github.com/repos/omccreativeservices/hotwire_template/contents/mods',
+            headers: {
+                'cache-control': 'no-cache',
+                Authorization: process.env.githubKey,
+                'user-agent': 'Request-Promise'
+            },
+            json: true
+          };
 
 
 
@@ -326,9 +336,68 @@ app.get('/date', (req, res) => {
                               // Promise.all for images in mods
                               return Promise.all(allPromises).then(function(results) {
                                 console.log("Promise.all for images in mods is finished");
-                                
-                                console.log("Sent current date to front end, App.js");
-                                res.json(dateOfUpdate);
+
+                                // GET files in mods folder
+                                return rp(getMods).then(function(data) {
+                                  let allPromises = [];
+
+                                  for(let i = 0; i < data.length; i++) {
+                                    if(data[i].name !== 'images') {
+                                      const getHeader = {
+                                        method: 'GET',
+                                        url: 'https://api.github.com/repos/omccreativeservices/hotwire_template/contents/mods/' + data[i].name,
+                                        headers: {
+                                            'cache-control': 'no-cache',
+                                            Authorization: process.env.githubKey,
+                                            'user-agent': 'Request-Promise'
+                                        },
+                                        json: true
+                                      }
+                                      const getPromise = new Promise(function (resolve, reject) {
+                                        rp(getHeader).then(function(results) {
+                                          const buff = Buffer.alloc(results.size, results.content, 'base64');
+                                          const text = buff.toString("ascii");
+              
+                                          fs.appendFileSync(__dirname + '/whole_mod_library/' + results.path, text, function (err) {
+                                            if (err) {
+                                              console.log("Error with writing file " + results.name);
+                                              throw err;
+                                            }
+                                            console.log('Saved ' + results.name + ' in folder /whole_mod_library/' + results.path);
+                                          });
+                                        })
+                                        .catch(function(err) {
+                                          console.log("Error with promise GET call to " + data[i].name);
+                                          throw err;
+                                        })
+              
+                                        resolve();
+                                      })
+
+                                      allPromises.push(getPromise);
+                                    }
+                                    
+                                  }
+                                  // Promise.all for mods
+                                  return Promise.all(allPromises).then(function(results) {
+                                    console.log("Promise.all for mods is finished");
+
+                                    console.log("Sent current date to front end, App.js");
+                                    res.json(dateOfUpdate);
+                                  })
+                                  .catch(function(err) {
+                                    console.log("Error with Promise.all for files to mods folder");
+                                    throw err;
+                                  })
+                                })
+                                .catch(function(err) {
+                                  console.log("Error with GET call to mods folder");
+                                  throw err;
+                                })
+                              })
+                              .catch(function(err) {
+                                console.log("Error with Promise.all for images in mods folder");
+                                throw err;
                               })
                             })
                             .catch(function(err) {
