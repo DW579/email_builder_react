@@ -96,9 +96,13 @@ class Lightbox extends Component {
   }
 
   handleClick() {
-    this.setState(state => ({
-      displayOn: !state.displayOn
-    }));
+    // this.setState(state => ({
+    //   displayOn: !state.displayOn
+    // }));
+    fetch('/download_library')
+      .then(res => console.log(res))
+      // .then(res => res.json)
+      // .then(data => console.log(data))
   }
 
   render() {

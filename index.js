@@ -10,7 +10,7 @@ const app = express();
 app.use(express.static(path.join(__dirname, 'client/build')));
 
 // API Objects
-var optionDate = {
+const optionDate = {
   method: 'GET',
   url: 'https://api.github.com/repos/omccreativeservices/hotwire_template',
   headers: {
@@ -47,8 +47,6 @@ app.get('/date', (req, res) => {
         if(data.updated_at !== modLibraryDate) {
           const dateOfUpdate = data.updated_at.slice(5, 7) + "/" + data.updated_at.slice(8, 10) + "/" + data.updated_at.slice(0, 4);
           const gitHubDate = data.updated_at;
-          // Variables for deleting and downloading libraries
-
 
           // Delete old library on server and then download up to date library from GitHub
           // Promises for deleting
@@ -60,7 +58,7 @@ app.get('/date', (req, res) => {
               }
 
               if(data.length > 0) {
-                for(var i = 0; i < data.length; i++) {
+                for(let i = 0; i < data.length; i++) {
                   fs.unlink(__dirname + '/whole_mod_library/mods/images/' + data[i], function (err) {
                       if(err) {
                         throw err;
@@ -81,7 +79,7 @@ app.get('/date', (req, res) => {
               }
 
               if(data.length > 0) {
-                for(var i = 0; i < data.length; i++) {
+                for(let i = 0; i < data.length; i++) {
                   if(data[i] !== "images") {
                     fs.unlink(__dirname + '/whole_mod_library/mods/' + data[i], function (err) {
                       if(err) {
@@ -104,7 +102,7 @@ app.get('/date', (req, res) => {
               }
 
               if(data.length > 0) {
-                for(var i = 0; i < data.length; i++) {
+                for(let i = 0; i < data.length; i++) {
                   fs.unlink(__dirname + '/whole_mod_library/mods_css/' + data[i], function (err) {
                       if(err) {
                         throw err;
@@ -125,7 +123,7 @@ app.get('/date', (req, res) => {
               }
 
               if(data.length > 0) {
-                for(var i = 0; i < data.length; i++) {
+                for(let i = 0; i < data.length; i++) {
                   fs.unlink(__dirname + '/whole_mod_library/library_pieces/' + data[i], function (err) {
                       if(err) {
                         throw err;
@@ -535,6 +533,15 @@ app.get('/date', (req, res) => {
   });
 
 });
+
+// Download whole mod library
+app.get('/download_library', (req, res) => {
+  console.log("Triggered download library");
+  res.zip([
+    { path: __dirname + '/whole_mod_library/library_pieces/library_bottom.html', name: 'library_bottom.html' },
+    { path: __dirname + '/whole_mod_library/library_pieces/library_middle.html', name: 'library_middle.html' }
+  ]);
+})
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
