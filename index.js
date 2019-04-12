@@ -551,7 +551,7 @@ app.get('/download_library', (req, res) => {
         let arrPromises = [];
 
         for(let i = 0; i < data.length; i++) {
-          // If statement is to check if the folder images is in another folder, if so, skip it
+          // Checking for the images folder to skip it
           if(data[i] !== "images") {
             const freshPromise = new Promise(function(resolve, reject) {
               const fileName = data[i];
@@ -561,8 +561,16 @@ app.get('/download_library', (req, res) => {
                   console.log("Error with reading file " + fileName);
                   throw err;
                 }
-  
-                const contnet = data.toString();
+
+                const content = "";
+                
+                if(folderName === "mods/images") {
+                  contnet = data.toString('base64');
+                }
+                else {
+                  contnet = data.toString();
+                }
+
                 libraryJson[folderName][fileName] = contnet;
   
                 resolve();

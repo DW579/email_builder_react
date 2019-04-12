@@ -104,12 +104,7 @@ class Lightbox extends Component {
     this.setState(state => ({
       displayOn: !state.displayOn
     }));
-    // zip.file("library_html", "whole_mod_library/library_bottom.html");
-    // console.log(zip.files.library_html._data)
-    // zip.generateAsync({type:"blob"}).then(function(content) {
-    //   // see FileSaver.js
-    //   saveAs(content, "example.zip");
-    // });
+
     fetch('/download_library')
       .then(res => res.json())
       .then(data => {
@@ -117,7 +112,12 @@ class Lightbox extends Component {
           return new Promise(function(resolve, reject) {
             for(let title in data[folderName]) {
               const name = folderName + "/" + title;
-              zip.file(name, data[folderName][title]);
+              if(folderName === "mods/images") {
+                zip.file(name, data[folderName][title], {base64: true});
+              }
+              else {
+                zip.file(name, data[folderName][title]);
+              }
             }
             resolve();
           })
@@ -130,10 +130,6 @@ class Lightbox extends Component {
         }
 
         console.log(zip);
-
-        // for(let title in data["library_pieces"]) {
-        //   zip.file("library_pieces/" + title, data["library_pieces"][title]);
-        // }
 
         zip.generateAsync({type:"blob"}).then(function(content) {
           // see FileSaver.js
