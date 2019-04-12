@@ -332,9 +332,8 @@ app.get('/date', (req, res) => {
                                 const getPromise = new Promise(function (resolve, reject) {
                                   rp(getHeader).then(function(results) {
                                     const buff = Buffer.alloc(results.size, results.content, 'base64');
-                                    const text = buff.toString("ascii");
         
-                                    fs.appendFileSync(__dirname + '/whole_mod_library/' + results.path, text, function (err) {
+                                    fs.writeFile(__dirname + '/whole_mod_library/' + results.path, buff, 'base64', function (err) {
                                       if (err) {
                                         console.log("Error with writing file " + results.name);
                                         throw err;
