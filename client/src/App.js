@@ -104,12 +104,42 @@ class Lightbox extends Component {
     this.setState(state => ({
       displayOn: !state.displayOn
     }));
-    zip.file("library_html", "whole_mod_library/library_bottom.html");
-    console.log(zip.files.library_html._data)
+    // zip.file("library_html", "whole_mod_library/library_bottom.html");
+    // console.log(zip.files.library_html._data)
     // zip.generateAsync({type:"blob"}).then(function(content) {
     //   // see FileSaver.js
     //   saveAs(content, "example.zip");
     // });
+    fetch('/download_library')
+      .then(res => res.json())
+      .then(data => {
+        const loadFilesFunction = function(folderName) {
+          return new Promise(function(resolve, reject) {
+            for(let title in data[folderName]) {
+              const name = folderName + "/" + title;
+              zip.file(name, data[folderName][title]);
+            }
+            resolve();
+          })
+        }
+
+        for(let folder in data) {
+          loadFilesFunction(folder).then(function() {
+            return;
+          })
+        }
+
+        console.log(zip);
+
+        // for(let title in data["library_pieces"]) {
+        //   zip.file("library_pieces/" + title, data["library_pieces"][title]);
+        // }
+
+        zip.generateAsync({type:"blob"}).then(function(content) {
+          // see FileSaver.js
+          saveAs(content, "hotwire_mod_library.zip");
+        });
+      })
   }
 
   render() {
@@ -124,7 +154,7 @@ class Lightbox extends Component {
               <div className="col-sm"></div>
               <div className="col-sm"></div>
               <div className="col-sm">
-                <div className="close" onClick={this.handleClick}>&times;</div>
+                {/* <div className="close" onClick={this.handleClick}>&times;</div> */}
               </div>
             </div>
             <div className="row">
