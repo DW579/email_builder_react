@@ -536,11 +536,102 @@ app.get('/date', (req, res) => {
 
 // Download whole mod library
 app.get('/download_library', (req, res) => {
-  console.log("Triggered download library");
-  res.zip([
-    { path: __dirname + '/whole_mod_library/library_pieces/library_bottom.html', name: 'library_bottom.html' },
-    { path: __dirname + '/whole_mod_library/library_pieces/library_middle.html', name: 'library_middle.html' }
-  ]);
+  let libraryJson = {};
+
+  // Reused function to create an array of promises to get the content for each file
+  const readFolderFunction = function(folderName) {
+    return new Promise(function(resolve, reject) {
+      libraryJson[folderName] = {};
+
+      fs.readdir(__dirname + "/whole_mod_library/" + folderName, (err, data) => {
+        if(err) {
+          console.log("Error with reading folder " + folderName);
+          throw err;
+        }
+        
+        let arrPromises = [];
+
+        for(let i = 0; i < data.length; i++) {
+          // If statement is to check if the folder images is in another folder, if so, skip it
+          if(data[i] !== "images") {
+            const freshPromise = new Promise(function(resolve, reject) {
+              const fileName = data[i];
+  
+              fs.readFile(__dirname + "/whole_mod_library/" + folderName + "/" + fileName, (err, data) => {
+                if(err) {
+                  console.log("Error with reading file " + fileName);
+                  throw err;
+                }
+  
+                const contnet = data.toString();
+                libraryJson[folderName][fileName] = contnet;
+  
+                resolve();
+              })
+            })
+  
+            arrPromises.push(freshPromise);
+          }
+        }
+
+        resolve(arrPromises);
+      });
+
+      
+    })
+  }
+
+  // Then statements to call on each folder to store content in key:value pair in libraryJson
+  readFolderFunction("library_pieces").then(function(data) {
+    return Promise.all(data).then(function() {
+      return readFolderFunction("mods").then(function(data) {
+        return Promise.all(data).then(function() {
+          return readFolderFunction("mods_css").then(function(data) {
+            return Promise.all(data).then(function() {
+              return readFolderFunction("mods/images").then(function(data) {
+                return Promise.all(data).then(function() {
+                  res.json(libraryJson);
+                })
+                .catch(function(err) {
+                  console.log("Error with Promise.all for images");
+                  throw err;
+                })
+              })
+              .catch(function(err) {
+                console.log("Error with readFolderFunction for images");
+                throw err;
+              })
+            })
+            .catch(function(err) {
+              console.log("Error with Promise.all for mods_css");
+              throw err;
+            })
+          })
+          .catch(function(err) {
+            console.log("Error with readFolderFunction for mods_css");
+            throw err;
+          })
+        })
+        .catch(function(err) {
+          console.log("Error with Promise.all for mods");
+          throw err;
+        })
+      })
+      .catch(function(err) {
+        console.log("Error with readFolderFunction for mods");
+        throw err;
+      })
+    })
+    .catch(function(err) {
+      console.log("Error with Promise.all for library_pieces");
+      throw err;
+    })
+  })
+  .catch(function(err) {
+    console.log("Error with readFolderFunction for library_pieces");
+    throw err;
+  })
+
 })
 
 // The "catchall" handler: for any request that doesn't

@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import logo from './images/oracle_logo.png';
 import loadingIcon from './images/loading.gif';
 import './App.css';
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
+import JSZipUtils from 'jszip-utils';
+
+const zip = new JSZip();
 
 class Nav extends Component {
   render() {
@@ -96,13 +101,15 @@ class Lightbox extends Component {
   }
 
   handleClick() {
-    // this.setState(state => ({
-    //   displayOn: !state.displayOn
-    // }));
-    fetch('/download_library')
-      .then(res => console.log(res))
-      // .then(res => res.json)
-      // .then(data => console.log(data))
+    this.setState(state => ({
+      displayOn: !state.displayOn
+    }));
+    zip.file("library_html", "whole_mod_library/library_bottom.html");
+    console.log(zip.files.library_html._data)
+    // zip.generateAsync({type:"blob"}).then(function(content) {
+    //   // see FileSaver.js
+    //   saveAs(content, "example.zip");
+    // });
   }
 
   render() {
