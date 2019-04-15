@@ -96,13 +96,26 @@ class Date extends Component {
 class Lightbox extends Component {
   constructor(props) {
     super(props);
-    this.state = {displayOn: true};
+    this.state = {
+      displayOn: true,
+      closeOn: true,
+      icon: true
+    };
     this.handleClick = this.handleClick.bind(this);
+    this.lightBoxClose = this.lightBoxClose.bind(this);
+  }
+
+  lightBoxClose() {
+    this.setState(state => ({
+      displayOn: !state.displayOn,
+      icon: !state.icon,
+      closeOn: !state.closeOn
+    }));
   }
 
   handleClick() {
     this.setState(state => ({
-      displayOn: !state.displayOn
+      displayOn: !state.displayOn,
     }));
 
     fetch('/download_library')
@@ -129,12 +142,16 @@ class Lightbox extends Component {
           })
         }
 
-        console.log(zip);
-
         zip.generateAsync({type:"blob"}).then(function(content) {
           // see FileSaver.js
           saveAs(content, "hotwire_mod_library.zip");
         });
+
+        // Show close button in lightbox
+        this.setState(state => ({
+          closeOn: !state.closeOn,
+          icon: !state.icon
+        }));
       })
   }
 
@@ -150,14 +167,15 @@ class Lightbox extends Component {
               <div className="col-sm"></div>
               <div className="col-sm"></div>
               <div className="col-sm">
-                {/* <div className="close" onClick={this.handleClick}>&times;</div> */}
+                <div className="close" style={{display: this.state.closeOn ? 'none' : 'block'}} onClick={this.lightBoxClose}>&times;</div>
               </div>
             </div>
             <div className="row">
               <div className="col-sm">
               </div>
-              <div className="col-sm">
-                <img src={loadingIcon} alt="" />
+              <div className="col-sm" align="center">
+                <img src={loadingIcon} style={{display: this.state.icon ? 'block' : 'none'}} alt="" />
+                <i className="far fa-check-circle fa-7x" style={{display: this.state.icon ? 'none' : 'block'}}></i>
               </div>
               <div className="col-sm">
               </div>
@@ -165,8 +183,9 @@ class Lightbox extends Component {
             <div className="row">
               <div className="col-sm">
               </div>
-              <div className="col-sm">
-                <h1 className="title">Download In Progress</h1>
+              <div className="col-sm" align="center">
+                <h1 className="title" style={{display: this.state.icon ? 'block' : 'none'}}>Download In Progress</h1>
+                <h1 className="title" style={{display: this.state.icon ? 'none' : 'block'}}>Success! Your download is ready.</h1>
                 <p className="text">Lorem ipsum dolor sit amet, consect etur adipiscing elit. Maecenas ut felis id ex rhoncus aliquet donec efficitur quis.</p>
               </div>
               <div className="col-sm">

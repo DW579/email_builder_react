@@ -18,8 +18,12 @@ html, .Body {
   text-align: center;
 }
 
-i {
+.fa-tools, .fa-cloud-download-alt {
   margin: 40px 0 0 0;
+}
+
+.fa-check-circle {
+  color: #519B00
 }
 
 .title {
