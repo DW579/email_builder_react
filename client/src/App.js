@@ -89,7 +89,7 @@ class Date extends Component {
   }
 }
 
-class DownloadBuildPages extends Component {
+class LibraryButton extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -152,63 +152,43 @@ class DownloadBuildPages extends Component {
       })
   }
 
-  // Function to display unique email view and download a unique email
-  uniqueEmail() {
-    console.log("Unique Email View");
-  }
-
   render() {
-    let button;
-
-    if(this.props.button === 'DOWNLOAD NOW') {
-      button = <button type="button" className="btn btn-danger redBtn" onClick={this.downloadLibrary}>{this.props.button}</button>;
-    }
-    else {
-      button = <button type="button" className="btn btn-danger redBtn" onClick={this.uniqueEmail}>{this.props.button}</button>;
-    }
-
     return (
-      <div className="DownloadBuildPages">
-        <div className="DownloadPage">
-          {button}
-          <div className="modal" style={{display: this.state.displayOn ? 'none' : 'block'}}>
-            <div className="modalBox container">
-              <div className="row">
-                <div className="col-sm"></div>
-                <div className="col-sm"></div>
-                <div className="col-sm">
-                  <div className="close" style={{display: this.state.closeOn ? 'none' : 'block'}} onClick={this.lightBoxClose}>&times;</div>
-                </div>
+      <div className="Button">
+        <button type="button" className="btn btn-danger redBtn" onClick={this.downloadLibrary}>{this.props.button}</button>
+        <div className="modal" style={{display: this.state.displayOn ? 'none' : 'block'}}>
+          <div className="modalBox container">
+            <div className="row">
+              <div className="col-sm"></div>
+              <div className="col-sm"></div>
+              <div className="col-sm">
+                <div className="close" style={{display: this.state.closeOn ? 'none' : 'block'}} onClick={this.lightBoxClose}>&times;</div>
               </div>
-              <div className="row">
-                <div className="col-sm">
-                </div>
-                <div className="col-sm" align="center">
-                  <img src={loadingIcon} style={{display: this.state.icon ? 'block' : 'none'}} alt="" />
-                  <i className="far fa-check-circle fa-7x" style={{display: this.state.icon ? 'none' : 'block'}}></i>
-                </div>
-                <div className="col-sm">
-                </div>
+            </div>
+            <div className="row">
+              <div className="col-sm">
               </div>
-              <div className="row">
-                <div className="col-sm">
-                </div>
-                <div className="col-sm" align="center">
-                  <h1 className="title" style={{display: this.state.icon ? 'block' : 'none'}}>Download In Progress</h1>
-                  <h1 className="title" style={{display: this.state.icon ? 'none' : 'block'}}>Success! Your download is ready.</h1>
-                  <p className="text">Lorem ipsum dolor sit amet, consect etur adipiscing elit. Maecenas ut felis id ex rhoncus aliquet donec efficitur quis.</p>
-                </div>
-                <div className="col-sm">
-                </div>
+              <div className="col-sm" align="center">
+                <img src={loadingIcon} style={{display: this.state.icon ? 'block' : 'none'}} alt="" />
+                <i className="far fa-check-circle fa-7x" style={{display: this.state.icon ? 'none' : 'block'}}></i>
+              </div>
+              <div className="col-sm">
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-sm">
+              </div>
+              <div className="col-sm" align="center">
+                <h1 className="title" style={{display: this.state.icon ? 'block' : 'none'}}>Download In Progress</h1>
+                <h1 className="title" style={{display: this.state.icon ? 'none' : 'block'}}>Success! Your download is ready.</h1>
+                <p className="text">Lorem ipsum dolor sit amet, consect etur adipiscing elit. Maecenas ut felis id ex rhoncus aliquet donec efficitur quis.</p>
+              </div>
+              <div className="col-sm">
               </div>
             </div>
           </div>
         </div>
-        <div className="BuildPage">
-      
-        </div>
       </div>
-      
     );
   }
 }
@@ -219,12 +199,15 @@ function Box(props) {
       <Image image={props.image}></Image>
       <Title title={props.title}></Title>
       <Text text={props.text}></Text>
-      <DownloadBuildPages button={props.button}></DownloadBuildPages>
     </div>
   );
 }
 
 class Main extends Component {
+  uniqueEmail() {
+    console.log("Build unique email");
+  }
+  
   render() {
     return (
       <div className="Main container-fluid">
@@ -234,9 +217,9 @@ class Main extends Component {
             <Box 
               image={downloadBox.image} 
               title={downloadBox.title} 
-              text={downloadBox.text} 
-              button={downloadBox.button}
+              text={downloadBox.text}
             ></Box>
+            <LibraryButton button={downloadBox.button}></LibraryButton>
             <Date></Date>
           </div>
           
@@ -245,9 +228,9 @@ class Main extends Component {
             <Box 
               image={uniqueBox.image} 
               title={uniqueBox.title} 
-              text={uniqueBox.text} 
-              button={uniqueBox.button}
+              text={uniqueBox.text}
             ></Box>
+            <button type="button" className="btn btn-danger redBtn" onClick={this.uniqueEmail}>BUILD EMAIL</button>
           </div>
           <div className="col-lg-1"></div>
         </div>
