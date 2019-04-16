@@ -204,35 +204,71 @@ function Box(props) {
 }
 
 class Main extends Component {
-  uniqueEmail() {
-    console.log("Build unique email");
+  constructor(props) {
+    super(props);
+    this.state = {
+      displayOn: true,
+      closeOn: true,
+      icon: true,
+      downloadLibraryPage: true
+    };
+    this.uniqueEmail = this.uniqueEmail.bind(this);
   }
-  
+
+  uniqueEmail() {
+    this.setState(state => ({
+      downloadLibraryPage: !state.downloadLibraryPage,
+    }));
+  }
+
   render() {
     return (
-      <div className="Main container-fluid">
-        <div className="row">
-          <div className="col-lg-1"></div>
-          <div className="Box col-lg-4">
-            <Box 
-              image={downloadBox.image} 
-              title={downloadBox.title} 
-              text={downloadBox.text}
-            ></Box>
-            <LibraryButton button={downloadBox.button}></LibraryButton>
-            <Date></Date>
+      <div className="Main">
+        <div className="container-fluid downloadLibraryPage" style={{display: this.state.downloadLibraryPage ? 'block' : 'none'}}>
+          <div className="row">
+            <div className="col-lg-1"></div>
+            <div className="Box col-lg-4">
+              <Box 
+                image={downloadBox.image} 
+                title={downloadBox.title} 
+                text={downloadBox.text}
+              ></Box>
+              <LibraryButton button={downloadBox.button}></LibraryButton>
+              <Date></Date>
+            </div>
+            
+            <div className="col-lg-2"></div>
+            <div className="Box col-lg-4">
+              <Box 
+                image={uniqueBox.image} 
+                title={uniqueBox.title} 
+                text={uniqueBox.text}
+              ></Box>
+              <button type="button" className="btn btn-danger redBtn" onClick={this.uniqueEmail}>BUILD EMAIL</button>
+            </div>
+            <div className="col-lg-1"></div>
           </div>
-          
-          <div className="col-lg-2"></div>
-          <div className="Box col-lg-4">
-            <Box 
-              image={uniqueBox.image} 
-              title={uniqueBox.title} 
-              text={uniqueBox.text}
-            ></Box>
-            <button type="button" className="btn btn-danger redBtn" onClick={this.uniqueEmail}>BUILD EMAIL</button>
+        </div>
+        <div className="container-fluid" style={{display: this.state.downloadLibraryPage ? 'none' : 'block'}}>
+          <div className="row">
+            <div className="col-lg-1">
+              <button type="button" onClick={this.uniqueEmail}>Back</button>
+            </div>
           </div>
-          <div className="col-lg-1"></div>
+          <div className="row" align="center">
+            <div className="col-lg-4"></div>
+            <div className="col-lg-4">
+              <h3 id="uniqueTitle">Build Unique Email</h3>
+            </div>
+            <div className="col-lg-4"></div>
+          </div>
+          <div className="row" align="center">
+          <div className="col-lg-3"></div>
+          <div className="col-lg-6">
+            <p id="uniqueText">Click and drag the preferred modules in your desired order.</p>
+          </div>
+          <div className="col-lg-3"></div>
+          </div>
         </div>
       </div>
     );

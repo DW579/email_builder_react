@@ -2,7 +2,7 @@ html, .Body {
   background-color: #F6F6F6;
 }
 
-.Main {
+.downloadLibraryPage {
   padding: 100px;
 }
 
@@ -92,6 +92,21 @@ html, .Body {
   cursor: pointer;
 }
 
+/* Unique Build */
+#uniqueTitle {
+  font-size: 35px;
+  font-weight: bold;
+  font-family: Helvetica, Arial, sans-serif;
+  color: #4C4C4C;
+}
+
+#uniqueText {
+  font-size: 21px;
+  font-family: Helvetica, Arial, sans-serif;
+  color: #333333;
+}
+
+/* Footer */
 .Footer {
   padding:10px;
 }
