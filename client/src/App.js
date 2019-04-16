@@ -59,13 +59,13 @@ class Date extends Component {
         <p className="date">LAST UPDATED {this.state.date}</p>
         <div className="modal" style={{display: this.state.displayOn ? 'block' : 'none'}}>
           <div className="modalBox container">
-            <div className="row" style={{display: this.state.closeButton ? 'block' : 'none'}}>
+            {/* <div className="row" style={{display: this.state.closeButton ? 'block' : 'none'}}>
               <div className="col-sm"></div>
               <div className="col-sm"></div>
               <div className="col-sm">
                 <div className="close" onClick={this.handleClick}>&times;</div>
               </div>
-            </div>
+            </div> */}
             <div className="row">
               <div className="col-sm">
               </div>
@@ -101,7 +101,7 @@ class Lightbox extends Component {
       closeOn: true,
       icon: true
     };
-    this.handleClick = this.handleClick.bind(this);
+    this.downloadLibrary = this.downloadLibrary.bind(this);
     this.lightBoxClose = this.lightBoxClose.bind(this);
   }
 
@@ -113,7 +113,8 @@ class Lightbox extends Component {
     }));
   }
 
-  handleClick() {
+  // Function for downloading whole Mod Library
+  downloadLibrary() {
     this.setState(state => ({
       displayOn: !state.displayOn,
     }));
@@ -155,12 +156,23 @@ class Lightbox extends Component {
       })
   }
 
+  // Function to display unique email view and download a unique email
+  uniqueEmail() {
+    console.log("Unique Email View");
+  }
+
   render() {
+    let button;
+
+    if(this.props.button === 'DOWNLOAD NOW') {
+      button = <button type="button" className="btn btn-danger redBtn" onClick={this.downloadLibrary}>{this.props.button}</button>;
+    }
+    else {
+      button = <button type="button" className="btn btn-danger redBtn" onClick={this.uniqueEmail}>{this.props.button}</button>;
+    }
     return (
       <div className="Lightbox">
-        <button type="button" className="btn btn-danger redBtn" onClick={this.handleClick}>
-          DOWNLOAD NOW
-        </button>
+        {button}
         <div className="modal" style={{display: this.state.displayOn ? 'none' : 'block'}}>
           <div className="modalBox container">
             <div className="row">
@@ -205,7 +217,7 @@ function Box(props) {
       <Title title={props.title}></Title>
       <Text text={props.text}></Text>
       {/* <Button button={props.button}></Button> */}
-      <Lightbox></Lightbox>
+      <Lightbox button={props.button}></Lightbox>
     </div>
   );
 }
