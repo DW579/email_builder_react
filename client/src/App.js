@@ -32,10 +32,6 @@ function Text(props) {
   return <p className="text">{props.text}</p>;
 }
 
-// function Button(props) {
-//   return <button type="button" className="btn btn-danger redBtn" onClick={Lightbox}>{props.button}</button>;
-// }
-
 class Date extends Component {
   state = { 
     date: [],
@@ -93,7 +89,7 @@ class Date extends Component {
   }
 }
 
-class Lightbox extends Component {
+class DownloadBuildPages extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -170,42 +166,49 @@ class Lightbox extends Component {
     else {
       button = <button type="button" className="btn btn-danger redBtn" onClick={this.uniqueEmail}>{this.props.button}</button>;
     }
+
     return (
-      <div className="Lightbox">
-        {button}
-        <div className="modal" style={{display: this.state.displayOn ? 'none' : 'block'}}>
-          <div className="modalBox container">
-            <div className="row">
-              <div className="col-sm"></div>
-              <div className="col-sm"></div>
-              <div className="col-sm">
-                <div className="close" style={{display: this.state.closeOn ? 'none' : 'block'}} onClick={this.lightBoxClose}>&times;</div>
+      <div className="DownloadBuildPages">
+        <div className="DownloadPage">
+          {button}
+          <div className="modal" style={{display: this.state.displayOn ? 'none' : 'block'}}>
+            <div className="modalBox container">
+              <div className="row">
+                <div className="col-sm"></div>
+                <div className="col-sm"></div>
+                <div className="col-sm">
+                  <div className="close" style={{display: this.state.closeOn ? 'none' : 'block'}} onClick={this.lightBoxClose}>&times;</div>
+                </div>
               </div>
-            </div>
-            <div className="row">
-              <div className="col-sm">
+              <div className="row">
+                <div className="col-sm">
+                </div>
+                <div className="col-sm" align="center">
+                  <img src={loadingIcon} style={{display: this.state.icon ? 'block' : 'none'}} alt="" />
+                  <i className="far fa-check-circle fa-7x" style={{display: this.state.icon ? 'none' : 'block'}}></i>
+                </div>
+                <div className="col-sm">
+                </div>
               </div>
-              <div className="col-sm" align="center">
-                <img src={loadingIcon} style={{display: this.state.icon ? 'block' : 'none'}} alt="" />
-                <i className="far fa-check-circle fa-7x" style={{display: this.state.icon ? 'none' : 'block'}}></i>
-              </div>
-              <div className="col-sm">
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-sm">
-              </div>
-              <div className="col-sm" align="center">
-                <h1 className="title" style={{display: this.state.icon ? 'block' : 'none'}}>Download In Progress</h1>
-                <h1 className="title" style={{display: this.state.icon ? 'none' : 'block'}}>Success! Your download is ready.</h1>
-                <p className="text">Lorem ipsum dolor sit amet, consect etur adipiscing elit. Maecenas ut felis id ex rhoncus aliquet donec efficitur quis.</p>
-              </div>
-              <div className="col-sm">
+              <div className="row">
+                <div className="col-sm">
+                </div>
+                <div className="col-sm" align="center">
+                  <h1 className="title" style={{display: this.state.icon ? 'block' : 'none'}}>Download In Progress</h1>
+                  <h1 className="title" style={{display: this.state.icon ? 'none' : 'block'}}>Success! Your download is ready.</h1>
+                  <p className="text">Lorem ipsum dolor sit amet, consect etur adipiscing elit. Maecenas ut felis id ex rhoncus aliquet donec efficitur quis.</p>
+                </div>
+                <div className="col-sm">
+                </div>
               </div>
             </div>
           </div>
         </div>
+        <div className="BuildPage">
+      
+        </div>
       </div>
+      
     );
   }
 }
@@ -216,8 +219,7 @@ function Box(props) {
       <Image image={props.image}></Image>
       <Title title={props.title}></Title>
       <Text text={props.text}></Text>
-      {/* <Button button={props.button}></Button> */}
-      <Lightbox button={props.button}></Lightbox>
+      <DownloadBuildPages button={props.button}></DownloadBuildPages>
     </div>
   );
 }
