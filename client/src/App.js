@@ -203,6 +203,25 @@ function Box(props) {
   );
 }
 
+class DragDropImage extends Component {
+
+  render() {
+    return (
+      <div className="row">
+        <div className="col-lg-3">
+          Mods
+        </div>
+        <div className="col-lg-3">
+          Mods Used
+        </div>
+        <div className="col-lg-6">
+          Email Preview
+        </div>
+      </div>
+    )
+  }
+}
+
 class Main extends Component {
   constructor(props) {
     super(props);
@@ -263,12 +282,13 @@ class Main extends Component {
             <div className="col-lg-4"></div>
           </div>
           <div className="row" align="center">
-          <div className="col-lg-3"></div>
-          <div className="col-lg-6">
-            <p id="uniqueText">Click and drag the preferred modules in your desired order.</p>
+            <div className="col-lg-3"></div>
+            <div className="col-lg-6">
+              <p id="uniqueText">Click and drag the preferred modules in your desired order.</p>
+            </div>
+            <div className="col-lg-3"></div>
           </div>
-          <div className="col-lg-3"></div>
-          </div>
+          <DragDropImage></DragDropImage>
         </div>
       </div>
     );
