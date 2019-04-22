@@ -238,6 +238,17 @@ class DragDropImage extends Component {
     this.state.mod_count++;
   }
 
+  resetMods() {
+    const parentNode = document.getElementById("modsUsed");
+    while(parentNode.firstChild) {
+      parentNode.removeChild(parentNode.firstChild);
+    }
+  }
+
+  downloadEmail() {
+    console.log("Download email");
+  }
+
   render() {
     return (
       <div className="DragDropImage">
@@ -258,6 +269,14 @@ class DragDropImage extends Component {
             </div>
             <div id="modsUsed"></div>
             <div id="emailPerview"></div>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-lg-3"></div>
+          <div className="col-lg-3"></div>
+          <div className="col-lg-6">
+          <button id="uniqueReset" onClick={ev => this.resetMods(ev)}>RESET</button>
+          <button id="uniqueDownload" onClick={ev => this.downloadEmail(ev)}>DOWNLOAD</button>
           </div>
         </div>
       </div>
