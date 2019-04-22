@@ -106,6 +106,20 @@ html, .Body {
   color: #333333;
 }
 
+#mods {
+  width: 200px;
+  border: solid 1px black;
+  float: left;
+}
+
+#modsUsed {
+  width: 200px;
+  height: 200px;
+  border: solid 1px black;
+  float: left;
+  margin-left: 20px;
+}
+
 /* Footer */
 .Footer {
   padding:10px;

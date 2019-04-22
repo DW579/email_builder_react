@@ -4,7 +4,7 @@ import loadingIcon from './images/loading.gif';
 import './App.css';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
-import JSZipUtils from 'jszip-utils';
+// import JSZipUtils from 'jszip-utils';
 
 const zip = new JSZip();
 
@@ -204,20 +204,64 @@ function Box(props) {
 }
 
 class DragDropImage extends Component {
+  state = {
+    mods: ["mod0", "mod1", "mod2", "mod3"],
+    mods_used: [],
+    mod_count: 0
+  };
+
+  addMod(ev) {
+    const modCard = document.createElement("div");
+    const cardTitle = document.createElement("p");
+    const clearButton = document.createElement("button");
+    const cardId = ev.target.id + "_" + this.state.mod_count;
+
+    // Set attributes on modCard
+    modCard.setAttribute("class", "drag");
+    modCard.setAttribute("id", cardId);
+    // modCard.setAttribute("onClick", "usedModsFunction()");
+    // node.setAttribute("draggable", "true");
+
+    // Set attributes on cardTitle
+    cardTitle.innerHTML = ev.target.id;
+    
+    // Set attributes on clearButton
+    clearButton.innerHTML = "x";
+    clearButton.setAttribute("onclick", "clearCard(this.parentElement.id)");
+
+    // Append elements to modCard
+    modCard.appendChild(cardTitle);
+    modCard.appendChild(clearButton);
+
+    document.getElementById("modsUsed").appendChild(modCard);
+
+    this.state.mod_count++;
+  }
 
   render() {
     return (
-      <div className="row">
-        <div className="col-lg-3">
-          Mods
-        </div>
-        <div className="col-lg-3">
-          Mods Used
-        </div>
-        <div className="col-lg-6">
-          Email Preview
+      <div className="DragDropImage">
+        <div className="row">
+          <div className="col-lg-12">
+            <div id="mods">
+              {this.state.mods.map(mods => (
+                  <div 
+                    className="drag"
+                    key={mods}
+                    id={mods} 
+                    onClick={ev => this.addMod(ev)}
+                  >
+                    {mods}
+                    Add
+                  </div>
+              ))}
+            </div>
+            <div id="modsUsed"></div>
+            <div id="emailPerview"></div>
+          </div>
         </div>
       </div>
+      
     )
   }
 }
