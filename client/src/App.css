@@ -108,16 +108,19 @@ html, .Body {
 
 #mods {
   width: 200px;
+  height: 500px;
   border: solid 1px black;
   float: left;
+  overflow: scroll;
 }
 
 #modsUsed {
   width: 200px;
-  height: 200px;
+  height: 500px;
   border: solid 1px black;
   float: left;
   margin-left: 20px;
+  overflow: scroll;
 }
 
 /* Footer */
