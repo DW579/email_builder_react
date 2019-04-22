@@ -205,10 +205,22 @@ function Box(props) {
 
 class DragDropImage extends Component {
   state = {
-    mods: ["mod0", "mod1", "mod2", "mod3"],
+    mods: [],
     mods_used: [],
     mod_count: 0
   };
+
+  // Fetching all mod file names from server
+  componentDidMount() {
+    fetch('/mod_names')
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        this.setState(state => ({
+          mods: data
+        }));
+      })
+  }
 
   addMod(ev) {
     const modCard = document.createElement("div");
@@ -235,7 +247,10 @@ class DragDropImage extends Component {
 
     document.getElementById("modsUsed").appendChild(modCard);
 
-    this.state.mod_count++;
+    this.setState(state => ({
+      mod_count: state.mod_count + 1
+    }));
+  
   }
 
   resetMods() {

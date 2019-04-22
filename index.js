@@ -641,6 +641,35 @@ app.get('/download_library', (req, res) => {
 
 })
 
+// Pass all mod file names to client side
+app.get('/mod_names', (req, res) => {
+  const fileNamesArr = [];
+
+  fs.readdir(__dirname + "/whole_mod_library/mods", function (err, data) {
+    if(err) {
+      console.log("Error with reading /whole_mod_library/mods file names");
+      throw err;
+    }
+
+    for(let i = 0; i < data.length; i++) {
+      let fileName = "";
+
+      for(let j = 0; j < data[i].length; j++) {
+        if(data[i][j] === ".") {
+          j = data[i].length;
+        }
+        else {
+          fileName = fileName + data[i][j];
+        }
+      }
+
+      fileNamesArr.push(fileName);
+    }
+
+    res.json(fileNamesArr);
+  })
+})
+
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
 app.get('*', (req, res) => {
