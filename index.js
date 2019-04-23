@@ -683,7 +683,11 @@ app.get('/mod_names', (req, res) => {
 app.post('/download_unique_email', (req, res) => {
   console.log(req.body);
   const userMods = req.body;
-  let emailImagesData = {};
+  let emailImagesData = {
+    "email": "",
+    "images": {}
+  };
+  let imageFileNames = [];
 
   const writeLibraryTopHtml = function() {
     return new Promise(function(resolve, reject) {
@@ -727,6 +731,38 @@ app.post('/download_unique_email', (req, res) => {
     })
   }
 
+  const readImageData = function() {
+    return new Promise(function(resolve, reject) {
+      fs.readdir(__dirname + '/whole_mod_library/mods/images', function (err, data) {
+        if(err) {
+          console.log("Error with reading images folder");
+          throw err;
+        }
+
+        imageFileNames = data;
+
+        resolve();
+      })
+    })
+  }
+
+  const addImageData = function(imageName) {
+    return new Promise(function(resolve, reject) {
+      fs.readFile(__dirname + '/whole_mod_library/mods/images/' + imageName, (err, data) => {
+        if(err) {
+          console.log("Error at reading image: " + imageName);
+          throw err;
+        }
+
+        // console.log(data.toString("base64"));
+        
+        emailImagesData["images"][imageName] = data.toString('base64');
+
+        resolve();
+      })
+    })
+  }
+
   const readSendUniqueEmail = function() {
     return new Promise(function(resolve, reject) {
       fs.readFile(__dirname + '/unique_email/unique_email.html', (err, data) => {
@@ -734,7 +770,7 @@ app.post('/download_unique_email', (req, res) => {
           console.log("Error with reading unique_email");
           throw err;
         }
-    
+
         emailImagesData["email"] = data.toString();
 
         resolve();
@@ -763,6 +799,14 @@ app.post('/download_unique_email', (req, res) => {
 
     // Read, append bottom portion of html shell
     await readAppendMod("library_pieces", "library_bottom", ".html");
+
+    // Read all file names in images folder
+    await readImageData();
+
+    // Read and add all image data to emailImagesData object
+    for(let i = 0; i < imageFileNames.length; i++) {
+      await addImageData(imageFileNames[i]);
+    }
 
     // Read, send data to client side for zipping
     await readSendUniqueEmail();

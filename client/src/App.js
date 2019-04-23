@@ -277,8 +277,13 @@ class DragDropImage extends Component {
     })
       .then(res => res.json())
       .then(data => {
+        console.log(data["images"].length);
         // Add unique_email content to the zip.file blob
         zip.file("unique_email.html", data["email"]);
+
+        for(let imageName in data["images"]) {
+          zip.file("images/" + imageName, data["images"][imageName], {base64: true});
+        }
 
         // Download zip of all the files found in the zip.file blob
         zip.generateAsync({type:"blob"}).then(function(content) {
