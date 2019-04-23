@@ -268,8 +268,6 @@ class DragDropImage extends Component {
       arrModsUsed.push(parentNode.children[i].children[0].innerHTML);
     }
 
-    console.log(arrModsUsed);
-
     fetch('/download_unique_email', {
       method: "POST",
       headers: {
@@ -277,7 +275,18 @@ class DragDropImage extends Component {
       },
       body: JSON.stringify(arrModsUsed)
     })
-      .then(res => console.log(res));
+      .then(res => res.json())
+      .then(data => {
+        // Add unique_email content to the zip.file blob
+        zip.file("unique_email.html", data["email"]);
+
+        // Download zip of all the files found in the zip.file blob
+        zip.generateAsync({type:"blob"}).then(function(content) {
+          // see FileSaver.js
+          saveAs(content, "unique_email.zip");
+        });
+
+      });
   }
 
   render() {

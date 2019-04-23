@@ -683,6 +683,7 @@ app.get('/mod_names', (req, res) => {
 app.post('/download_unique_email', (req, res) => {
   console.log(req.body);
   const userMods = req.body;
+  let emailImagesData = {};
 
   const writeLibraryTopHtml = function() {
     return new Promise(function(resolve, reject) {
@@ -726,11 +727,31 @@ app.post('/download_unique_email', (req, res) => {
     })
   }
 
+  const readSendUniqueEmail = function() {
+    return new Promise(function(resolve, reject) {
+      fs.readFile(__dirname + '/unique_email/unique_email.html', (err, data) => {
+        if(err) {
+          console.log("Error with reading unique_email");
+          throw err;
+        }
+    
+        emailImagesData["email"] = data.toString();
+
+        resolve();
+      })
+    })
+  }
+
   async function buildUniqueEmail() {
     // Read, write top portion of html shell
     await writeLibraryTopHtml();
 
     // Place holder for CSS promises
+    for(let i = 0; i < userMods.length; i++) {
+      if(fs.existsSync(__dirname + "/whole_mod_library/mods_css/" + userMods[i] + ".css")) {
+        await readAppendMod("mods_css", userMods[i], ".css");
+      }
+    }
 
     // Read, append middle portion of the html shell
     await readAppendMod("library_pieces", "library_middle", ".html");
@@ -742,11 +763,14 @@ app.post('/download_unique_email', (req, res) => {
 
     // Read, append bottom portion of html shell
     await readAppendMod("library_pieces", "library_bottom", ".html");
+
+    // Read, send data to client side for zipping
+    await readSendUniqueEmail();
+
+    res.json(emailImagesData);
   }
 
   buildUniqueEmail();
-
-  res.send("Download unique email");
 })
 
 // The "catchall" handler: for any request that doesn't
