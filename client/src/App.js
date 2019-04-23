@@ -260,17 +260,22 @@ class DragDropImage extends Component {
   }
 
   downloadEmail() {
-    // const parentNode = document.getElementById("modsUsed");
-    const data = {foo: 1, bar: 2};
+    const parentNode = document.getElementById("modsUsed");
+    let arrModsUsed = [];
 
-    // console.log(parentNode.children[2].id);
+    // Push mod titles into arrModsUsed that will be passed to the server
+    for(let i = 0; i < parentNode.children.length; i++) {
+      arrModsUsed.push(parentNode.children[i].children[0].innerHTML);
+    }
+
+    console.log(arrModsUsed);
 
     fetch('/download_unique_email', {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(arrModsUsed)
     })
       .then(res => console.log(res));
   }

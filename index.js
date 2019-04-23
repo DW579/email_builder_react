@@ -681,8 +681,70 @@ app.get('/mod_names', (req, res) => {
 })
 
 app.post('/download_unique_email', (req, res) => {
-  console.log("download_unique_email was called");
-  console.log(req.body.foo);
+  console.log(req.body);
+  const userMods = req.body;
+
+  const writeLibraryTopHtml = function() {
+    return new Promise(function(resolve, reject) {
+      fs.readFile(__dirname + '/whole_mod_library/library_pieces/library_top.html', (err, data) => {
+        if(err) {
+          console.log("Error with reading library pieces");
+          throw err;
+        }
+    
+        fs.writeFile(__dirname + '/unique_email/unique_email.html', data, (err) => {
+          if(err) {
+            console.log("Error with writing file");
+            throw err;
+          }
+    
+          console.log("Wrote file to unique_email.html");
+  
+          resolve();
+        })
+      })
+    })
+  }
+
+  const readAppendMod = function(folderName, modName, ext) {
+    return new Promise(function(resolve, reject) {
+      fs.readFile(__dirname + '/whole_mod_library/' + folderName + '/' + modName + ext, (err, data) => {
+        if(err) {
+          console.log("Error with reading file: " + modName + ext);
+          throw err;
+        }
+
+        fs.appendFile(__dirname + '/unique_email/unique_email.html', data, (err) => {
+          if(err) {
+            console.log("Error with appending file: " + modName + ext);
+            throw err;
+          }
+
+          resolve();
+        })
+      })
+    })
+  }
+
+  async function buildUniqueEmail() {
+    // Read, write top portion of html shell
+    await writeLibraryTopHtml();
+
+    // Place holder for CSS promises
+
+    // Read, append middle portion of the html shell
+    await readAppendMod("library_pieces", "library_middle", ".html");
+
+    // Read, append all mods
+    for(let i = 0; i < userMods.length; i++) {
+      await readAppendMod("mods", userMods[i], ".html");
+    }
+
+    // Read, append bottom portion of html shell
+    await readAppendMod("library_pieces", "library_bottom", ".html");
+  }
+
+  buildUniqueEmail();
 
   res.send("Download unique email");
 })
