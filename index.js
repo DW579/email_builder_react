@@ -5,9 +5,16 @@ require('dotenv').config()
 const fs = require('fs');
 const zip = require('express-zip');
 const app = express();
+const bodyParser = require('body-parser');
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
+
+// Parse URL-encoded bodies (as sent by HTML forms)
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// Parse JSON bodies (as sent by API clients)
+app.use(bodyParser.json());
 
 // API Objects
 const optionDate = {
@@ -652,7 +659,9 @@ app.get('/mod_names', (req, res) => {
     }
 
     for(let i = 0; i < data.length; i++) {
-      let fileName = "";
+      // Make sure to not pass images into fileNamesArr
+      if(data[i] !== "images") {
+        let fileName = "";
 
       for(let j = 0; j < data[i].length; j++) {
         if(data[i][j] === ".") {
@@ -664,10 +673,18 @@ app.get('/mod_names', (req, res) => {
       }
 
       fileNamesArr.push(fileName);
+      }
     }
 
     res.json(fileNamesArr);
   })
+})
+
+app.post('/download_unique_email', (req, res) => {
+  console.log("download_unique_email was called");
+  console.log(req.body.foo);
+
+  res.send("Download unique email");
 })
 
 // The "catchall" handler: for any request that doesn't

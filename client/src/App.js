@@ -215,7 +215,6 @@ class DragDropImage extends Component {
     fetch('/mod_names')
       .then(res => res.json())
       .then(data => {
-        console.log(data);
         this.setState(state => ({
           mods: data
         }));
@@ -261,7 +260,19 @@ class DragDropImage extends Component {
   }
 
   downloadEmail() {
-    console.log("Download email");
+    // const parentNode = document.getElementById("modsUsed");
+    const data = {foo: 1, bar: 2};
+
+    // console.log(parentNode.children[2].id);
+
+    fetch('/download_unique_email', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    })
+      .then(res => console.log(res));
   }
 
   render() {
