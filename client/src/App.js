@@ -227,6 +227,7 @@ class DragDropImage extends Component {
     const clearButton = document.createElement("button");
     const image = document.createElement("img");
     const cardId = ev.target.id + "_" + this.state.mod_count;
+    const imageId = ev.target.id + "_" + this.state.mod_count + "_img";
     const selectedMod = {
       "name": ev.target.id
     }
@@ -246,6 +247,7 @@ class DragDropImage extends Component {
 
         // Set attributes on perview image
         image.setAttribute("src", imageData);
+        image.setAttribute("id", imageId);
 
         // Append preview images
         document.getElementById("emailPerview").appendChild(image);
