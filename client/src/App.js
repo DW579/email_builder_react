@@ -225,13 +225,35 @@ class DragDropImage extends Component {
     const modCard = document.createElement("div");
     const cardTitle = document.createElement("p");
     const clearButton = document.createElement("button");
+    const image = document.createElement("img");
     const cardId = ev.target.id + "_" + this.state.mod_count;
+    const selectedMod = {
+      "name": ev.target.id
+    }
+    let imageData = "data:image/png;base64,";
+
+    // Fetch preview image data
+    fetch('/preview_image', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(selectedMod)
+    })
+      .then(res => res.json())
+      .then(data => {
+        imageData += data.image;
+
+        // Set attributes on perview image
+        image.setAttribute("src", imageData);
+
+        // Append preview images
+        document.getElementById("emailPerview").appendChild(image);
+      })
 
     // Set attributes on modCard
     modCard.setAttribute("class", "ui-state-default");
     modCard.setAttribute("id", cardId);
-    // modCard.setAttribute("onClick", "usedModsFunction()");
-    // node.setAttribute("draggable", "true");
 
     // Set attributes on cardTitle
     cardTitle.innerHTML = ev.target.id;
@@ -250,6 +272,10 @@ class DragDropImage extends Component {
       mod_count: state.mod_count + 1
     }));
   
+  }
+
+  dropMod(ev) {
+    console.log("Mod dropped");
   }
 
   resetMods() {
@@ -298,7 +324,7 @@ class DragDropImage extends Component {
     return (
       <div className="DragDropImage">
         <div className="row">
-          <div className="col-lg-12">
+          <div className="col-lg-3">
             <div id="mods">
               {this.state.mods.map(mods => (
                   <div 
@@ -311,7 +337,11 @@ class DragDropImage extends Component {
                   </div>
               ))}
             </div>
+          </div>
+          <div className="col-lg-3">
             <div id="modsUsed"></div>
+          </div>
+          <div className="col-lg-6">
             <div id="emailPerview"></div>
           </div>
         </div>

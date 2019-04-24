@@ -753,8 +753,6 @@ app.post('/download_unique_email', (req, res) => {
           console.log("Error at reading image: " + imageName);
           throw err;
         }
-
-        // console.log(data.toString("base64"));
         
         emailImagesData["images"][imageName] = data.toString('base64');
 
@@ -815,6 +813,35 @@ app.post('/download_unique_email', (req, res) => {
   }
 
   buildUniqueEmail();
+})
+
+app.post('/preview_image', (req, res) => {
+  let imageData = {
+    "image": ""
+  };
+
+  const readImageData = function(imageName) {
+    return new Promise(function(resolve, reject) {
+      fs.readFile(__dirname + '/preview_images/' + imageName + '.png', (err, data) => {
+        if(err) {
+          console.log("Error at reading image: " + imageName);
+          throw err;
+        }
+
+        imageData["image"] = data.toString('base64');
+
+        resolve();
+      })
+    })
+  }
+
+  async function requestImage() {
+    await readImageData(req.body.name);
+
+    res.send(imageData);
+  };
+
+  requestImage();
 })
 
 // The "catchall" handler: for any request that doesn't

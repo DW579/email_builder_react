@@ -123,6 +123,12 @@ html, .Body {
   overflow: scroll;
 }
 
+#emailPerview {
+  height: 500px;
+  border: solid 1px black;
+  overflow: scroll;
+}
+
 /* Footer */
 .Footer {
   padding:10px;
