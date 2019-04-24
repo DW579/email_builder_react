@@ -110,6 +110,7 @@ html, .Body {
   width: 200px;
   height: 500px;
   border: solid 1px black;
+  background-color: white;
   float: left;
   overflow: scroll;
 }
@@ -118,14 +119,16 @@ html, .Body {
   width: 200px;
   height: 500px;
   border: solid 1px black;
+  background-color: white;
   float: left;
   margin-left: 20px;
   overflow: scroll;
 }
 
-#emailPerview {
+#emailPreview {
   height: 500px;
   border: solid 1px black;
+  background-color: white;
   overflow: scroll;
 }
 

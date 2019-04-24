@@ -245,12 +245,12 @@ class DragDropImage extends Component {
       .then(data => {
         imageData += data.image;
 
-        // Set attributes on perview image
+        // Set attributes on preview image
         image.setAttribute("src", imageData);
         image.setAttribute("id", imageId);
 
         // Append preview images
-        document.getElementById("emailPerview").appendChild(image);
+        document.getElementById("emailPreview").appendChild(image);
       })
 
     // Set attributes on modCard
@@ -276,14 +276,18 @@ class DragDropImage extends Component {
   
   }
 
-  dropMod(ev) {
-    console.log("Mod dropped");
-  }
-
   resetMods() {
-    const parentNode = document.getElementById("modsUsed");
-    while(parentNode.firstChild) {
-      parentNode.removeChild(parentNode.firstChild);
+    const parentNodeModsUsed = document.getElementById("modsUsed");
+    const parentNodeEmailPreview = document.getElementById("emailPreview");
+
+    // Delete all mods selected in modsUsed div
+    while(parentNodeModsUsed.firstChild) {
+      parentNodeModsUsed.removeChild(parentNodeModsUsed.firstChild);
+    }
+
+    // Delete all preview images in emailPreview div
+    while(parentNodeEmailPreview.firstChild) {
+      parentNodeEmailPreview.removeChild(parentNodeEmailPreview.firstChild);
     }
   }
 
@@ -344,7 +348,7 @@ class DragDropImage extends Component {
             <div id="modsUsed"></div>
           </div>
           <div className="col-lg-6">
-            <div id="emailPerview"></div>
+            <div id="emailPreview"></div>
           </div>
         </div>
         <div className="row">
