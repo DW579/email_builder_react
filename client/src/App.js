@@ -228,7 +228,7 @@ class DragDropImage extends Component {
     const cardId = ev.target.id + "_" + this.state.mod_count;
 
     // Set attributes on modCard
-    modCard.setAttribute("class", "drag");
+    modCard.setAttribute("class", "ui-state-default");
     modCard.setAttribute("id", cardId);
     // modCard.setAttribute("onClick", "usedModsFunction()");
     // node.setAttribute("draggable", "true");
@@ -277,10 +277,10 @@ class DragDropImage extends Component {
     })
       .then(res => res.json())
       .then(data => {
-        console.log(data["images"].length);
         // Add unique_email content to the zip.file blob
         zip.file("unique_email.html", data["email"]);
 
+        // Adding images content to zip.file blob
         for(let imageName in data["images"]) {
           zip.file("images/" + imageName, data["images"][imageName], {base64: true});
         }
@@ -302,7 +302,6 @@ class DragDropImage extends Component {
             <div id="mods">
               {this.state.mods.map(mods => (
                   <div 
-                    className="drag"
                     key={mods}
                     id={mods} 
                     onClick={ev => this.addMod(ev)}
