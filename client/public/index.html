@@ -49,6 +49,7 @@
       $(function() {
         $("#modsUsed").sortable({
           update: function(ev) {
+            // On drop during reorder, reorder the preview images to match mods used
             const modsUsedChildren = ev.target.childNodes;
             const emailPreviewChildren = document.getElementById("emailPreview").childNodes;
 

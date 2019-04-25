@@ -207,8 +207,20 @@ class DragDropImage extends Component {
   state = {
     mods: [],
     mods_used: [],
-    mod_count: 0
+    mod_count: 0,
+    displayOn: true,
+    icon: true,
+    closeOn: true
   };
+
+  // Close lightbox
+  lightBoxClose() {
+    this.setState(state => ({
+      displayOn: !state.displayOn,
+      icon: !state.icon,
+      closeOn: !state.closeOn
+    }));
+  }
 
   // Fetching all mod file names from server
   componentDidMount() {
@@ -232,14 +244,6 @@ class DragDropImage extends Component {
       "name": ev.target.id
     }
     let imageData = "data:image/png;base64,";
-
-    // this.setState(state => {
-    //   const pushMod = state.mods_used.push(imageId)
-
-    //   return pushMod;
-    // });
-
-    // console.log(this.state);
 
     // Fetch preview image data
     fetch('/preview_image', {
@@ -303,6 +307,11 @@ class DragDropImage extends Component {
     const parentNode = document.getElementById("modsUsed");
     let arrModsUsed = [];
 
+    // Turn on light box
+    this.setState(state => ({
+      displayOn: !state.displayOn,
+    }));
+
     // Push mod titles into arrModsUsed that will be passed to the server
     for(let i = 0; i < parentNode.children.length; i++) {
       arrModsUsed.push(parentNode.children[i].children[0].innerHTML);
@@ -324,6 +333,12 @@ class DragDropImage extends Component {
         for(let imageName in data["images"]) {
           zip.file("images/" + imageName, data["images"][imageName], {base64: true});
         }
+
+        // Show Success on lightbox
+        this.setState(state => ({
+          icon: !state.icon,
+          closeOn: !state.closeOn
+        }));
 
         // Download zip of all the files found in the zip.file blob
         zip.generateAsync({type:"blob"}).then(function(content) {
@@ -365,6 +380,38 @@ class DragDropImage extends Component {
           <div className="col-lg-6">
           <button id="uniqueReset" onClick={ev => this.resetMods(ev)}>RESET</button>
           <button id="uniqueDownload" onClick={ev => this.downloadEmail(ev)}>DOWNLOAD</button>
+          </div>
+        </div>
+        <div className="modal" style={{display: this.state.displayOn ? 'none' : 'block'}}>
+          <div className="modalBox container">
+            <div className="row">
+              <div className="col-sm"></div>
+              <div className="col-sm"></div>
+              <div className="col-sm">
+                <div className="close" style={{display: this.state.closeOn ? 'none' : 'block'}} onClick={ev => this.lightBoxClose()}>&times;</div>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-sm">
+              </div>
+              <div className="col-sm" align="center">
+                <img src={loadingIcon} style={{display: this.state.icon ? 'block' : 'none'}} alt="" />
+                <i className="far fa-check-circle fa-7x" style={{display: this.state.icon ? 'none' : 'block'}}></i>
+              </div>
+              <div className="col-sm">
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-sm">
+              </div>
+              <div className="col-sm" align="center">
+                <h1 className="title" style={{display: this.state.icon ? 'block' : 'none'}}>Download In Progress</h1>
+                <h1 className="title" style={{display: this.state.icon ? 'none' : 'block'}}>Success! Your download is ready.</h1>
+                <p className="text">Lorem ipsum dolor sit amet, consect etur adipiscing elit. Maecenas ut felis id ex rhoncus aliquet donec efficitur quis.</p>
+              </div>
+              <div className="col-sm">
+              </div>
+            </div>
           </div>
         </div>
       </div>
