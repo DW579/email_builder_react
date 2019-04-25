@@ -49,8 +49,18 @@
       $(function() {
         $("#modsUsed").sortable({
           update: function(ev) {
-            console.log(ev.target);
+            const modsUsedChildren = ev.target.childNodes;
+            const emailPreviewChildren = document.getElementById("emailPreview").childNodes;
 
+            for(let i = 0; i < modsUsedChildren.length; i++) {
+              const imgId = modsUsedChildren[i].id + "_img";
+
+              for(let j = 0; j < emailPreviewChildren.length; j++) {
+                if(emailPreviewChildren[j].id === imgId) {
+                  document.getElementById("emailPreview").appendChild(emailPreviewChildren[j]);
+                }
+              }
+            }
           }
         });
 

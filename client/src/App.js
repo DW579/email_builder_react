@@ -233,6 +233,14 @@ class DragDropImage extends Component {
     }
     let imageData = "data:image/png;base64,";
 
+    // this.setState(state => {
+    //   const pushMod = state.mods_used.push(imageId)
+
+    //   return pushMod;
+    // });
+
+    // console.log(this.state);
+
     // Fetch preview image data
     fetch('/preview_image', {
       method: "POST",
