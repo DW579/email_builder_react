@@ -836,7 +836,12 @@ app.post('/preview_image', (req, res) => {
   }
 
   async function requestImage() {
-    await readImageData(req.body.name);
+    if(fs.existsSync(__dirname + '/preview_images/' + req.body.name + '.png')) {
+      await readImageData(req.body.name);
+    }
+    else {
+      imageData["image"] = false;
+    }
 
     res.send(imageData);
   };

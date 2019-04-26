@@ -238,6 +238,7 @@ class DragDropImage extends Component {
     const cardTitle = document.createElement("p");
     const clearButton = document.createElement("button");
     const image = document.createElement("img");
+    const notFound = document.createElement("div");
     const cardId = ev.target.id + "_" + this.state.mod_count;
     const imageId = ev.target.id + "_" + this.state.mod_count + "_img";
     const selectedMod = {
@@ -257,12 +258,24 @@ class DragDropImage extends Component {
       .then(data => {
         imageData += data.image;
 
-        // Set attributes on preview image
-        image.setAttribute("src", imageData);
-        image.setAttribute("id", imageId);
+        if(data.image !== false) {
+          // Set attributes on preview image
+          image.setAttribute("src", imageData);
+          image.setAttribute("id", imageId);
 
-        // Append preview images
-        document.getElementById("emailPreview").appendChild(image);
+          // Append preview images
+          document.getElementById("emailPreview").appendChild(image);
+        }
+        else {
+          // Set attributes to div not found
+          notFound.setAttribute("id", imageId);
+          notFound.innerText = "Image not found";
+
+          // Append to emailPreview
+          document.getElementById("emailPreview").appendChild(notFound);
+        }
+
+        
       })
 
     // Set attributes on modCard
