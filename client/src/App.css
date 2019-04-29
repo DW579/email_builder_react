@@ -119,6 +119,7 @@ html, .Body {
   border: 1px solid #C4C4C4;
   margin: 15px;
   height: 61px;
+  background-color: #ffffff;
 }
 
 .modsTitleDiv {
@@ -162,6 +163,21 @@ html, .Body {
   text-align: center;
   text-decoration: none;
   display: inline-block;
+}
+
+.clearButton {
+  float: right;
+  background-color: #959595;
+  color: #ffffff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 17px;
+  line-height: 19px;
+  margin: 4px 4px 0 0;
 }
 
 .previewTitleDiv {
