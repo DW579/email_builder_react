@@ -396,7 +396,7 @@ class DragDropImage extends Component {
                       {mods}
                     </div>
                     <button id={mods} className="modsAdd" onClick={ev => this.addMod(ev)}>
-                      Add
+                      ADD
                     </button>
                   </div>
               ))}
