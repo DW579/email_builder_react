@@ -340,7 +340,7 @@ class DragDropImage extends Component {
 
     // Push mod titles into arrModsUsed that will be passed to the server
     for(let i = 0; i < parentNode.children.length; i++) {
-      arrModsUsed.push(parentNode.children[i].children[0].innerHTML);
+      arrModsUsed.push(parentNode.children[i].children[1].innerHTML);
     }
 
     fetch('/download_unique_email', {
@@ -380,8 +380,8 @@ class DragDropImage extends Component {
       <div className="DragDropImage">
         <div className="row">
           <div className="col-lg-3">
-            <div class="modsTitleDiv" align="center">
-              <div class="modsTitle">MODULES</div>
+            <div className="modsTitleDiv" align="center">
+              <div className="modsTitle">MODULES</div>
             </div>
             <div id="mods">
               {this.state.mods.map(mods => (
@@ -403,14 +403,14 @@ class DragDropImage extends Component {
             </div>
           </div>
           <div className="col-lg-3">
-            <div class="modsTitleDiv" align="center">
-              <div class="modsTitle">MODULES USED</div>
+            <div className="modsTitleDiv" align="center">
+              <div className="modsTitle">MODULES USED</div>
             </div>
             <div id="modsUsed"></div>
           </div>
           <div className="col-lg-6">
-            <div class="previewTitleDiv" align="center">
-              <div class="modsTitle">EMAIL PREVIEW</div>
+            <div className="previewTitleDiv" align="center">
+              <div className="modsTitle">EMAIL PREVIEW</div>
             </div>
             <div id="emailPreview" align="center"></div>
           </div>
@@ -418,9 +418,11 @@ class DragDropImage extends Component {
         <div className="row">
           <div className="col-lg-3"></div>
           <div className="col-lg-3"></div>
-          <div className="col-lg-6">
-          <button id="uniqueReset" onClick={ev => this.resetMods(ev)}>RESET</button>
-          <button id="uniqueDownload" onClick={ev => this.downloadEmail(ev)}>DOWNLOAD</button>
+          <div className="col-lg-3">
+            <button id="uniqueReset" onClick={ev => this.resetMods(ev)}>RESET</button>
+          </div>
+          <div className="col-lg-3">
+            <button id="uniqueDownload" onClick={ev => this.downloadEmail(ev)}>DOWNLOAD</button>
           </div>
         </div>
         <div className="modal" style={{display: this.state.displayOn ? 'none' : 'block'}}>

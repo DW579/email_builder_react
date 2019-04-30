@@ -203,6 +203,38 @@ html, .Body {
   overflow: scroll;
 }
 
+#uniqueReset {
+  width: 100%;
+  border-radius: 8px;
+  background-color: #959595;
+  color: #ffffff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 24px;
+  padding: 5px 0;
+  margin-top: 12px;
+}
+
+#uniqueDownload {
+  width: 100%;
+  border-radius: 8px;
+  background-color: #F80000;
+  color: #ffffff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 24px;
+  padding: 5px 0;
+  margin-top: 12px;
+}
+
 /* Footer */
 .Footer {
   padding:10px;
