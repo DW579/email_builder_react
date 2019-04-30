@@ -650,7 +650,41 @@ app.get('/download_library', (req, res) => {
 
 // Pass all mod file names to client side
 app.get('/mod_names', (req, res) => {
-  const fileNamesArr = [];
+  let fileNamesArr = [];
+  let modsNameImages = {};
+
+  // const allModNames = function() {
+  //   return new Promise(function(resolve, reject) {
+  //     fs.readdir(__dirname + "/whole_mod_library/mods", function (err, data) {
+  //       if(err) {
+  //         console.log("Error with reading /whole_mod_library/mods file names");
+  //         throw err;
+  //       }
+
+  //       console.log(data);
+
+  //       resolve();
+  //     })
+  //   })
+  // }
+
+  // const thumbImage = function() {
+  //   return new Promise(function(resolve, reject) {
+  //     console.log("Ran thumbImage");
+
+  //     resolve();
+  //   })
+  // }
+
+  // async function allModNamesThumbs() {
+  //   await allModNames();
+
+  //   await thumbImage();
+
+  //   res.send("Done");
+  // }
+
+  // allModNamesThumbs();
 
   fs.readdir(__dirname + "/whole_mod_library/mods", function (err, data) {
     if(err) {
@@ -678,6 +712,8 @@ app.get('/mod_names', (req, res) => {
 
     res.json(fileNamesArr);
   })
+
+  
 })
 
 app.post('/download_unique_email', (req, res) => {

@@ -137,8 +137,11 @@ html, .Body {
 }
 
 .thumbImg {
+  width: 60px;
+  height: 50px;
   float: left;
-  padding: 5px;
+  margin: 5px;
+  background-color: #EEEEEE;
 }
 
 .modsName {
