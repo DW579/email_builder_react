@@ -650,70 +650,119 @@ app.get('/download_library', (req, res) => {
 
 // Pass all mod file names to client side
 app.get('/mod_names', (req, res) => {
-  let fileNamesArr = [];
-  let modsNameImages = {};
+  // let fileNamesArr = [];
+  // let modsNameImages = {
+  //   "names": fileNamesArr,
+  //   "images": {}
+  // };
 
-  // const allModNames = function() {
-  //   return new Promise(function(resolve, reject) {
-  //     fs.readdir(__dirname + "/whole_mod_library/mods", function (err, data) {
-  //       if(err) {
-  //         console.log("Error with reading /whole_mod_library/mods file names");
-  //         throw err;
-  //       }
+  // fs.readdir(__dirname + "/whole_mod_library/mods", function (err, data) {
+  //   if(err) {
+  //     console.log("Error with reading /whole_mod_library/mods file names");
+  //     throw err;
+  //   }
 
-  //       console.log(data);
+    // for(let i = 0; i < data.length; i++) {
+    //   // Make sure to not pass images into fileNamesArr
+    //   if(data[i] !== "images") {
+    //     let fileName = "";
 
-  //       resolve();
-  //     })
-  //   })
-  // }
+    //   for(let j = 0; j < data[i].length; j++) {
+    //     if(data[i][j] === ".") {
+    //       j = data[i].length;
+    //     }
+    //     else {
+    //       fileName = fileName + data[i][j];
+    //     }
+    //   }
 
-  // const thumbImage = function() {
-  //   return new Promise(function(resolve, reject) {
-  //     console.log("Ran thumbImage");
+    //   fileNamesArr.push(fileName);
+    //   }
+    // }
+  //   console.log(modsNameImages);
+  //   res.json(fileNamesArr);
+  // })
 
-  //     resolve();
-  //   })
-  // }
+  let modNamesThumbs = {
+    "names": [],
+    "images": {}
+  }
 
-  // async function allModNamesThumbs() {
-  //   await allModNames();
+  const readModDir = function() {
+    return new Promise(function(resolve, reject) {
+      let fileNamesArr = [];
 
-  //   await thumbImage();
+      fs.readdir(__dirname + "/whole_mod_library/mods", function(err, data) {
+        if(err) {
+          console.log("Error with readModDir");
+          throw err;
+        }
 
-  //   res.send("Done");
-  // }
+        for(let i = 0; i < data.length + 1; i++) {
+          // Make sure to not pass images into fileNamesArr
+          if(i === data.length) {
+            modNamesThumbs["names"] = fileNamesArr;
+            resolve(fileNamesArr);
+          }
+          else if(data[i] !== "images") {
+            let fileName = "";
+    
+          for(let j = 0; j < data[i].length; j++) {
+            if(data[i][j] === ".") {
+              j = data[i].length;
+            }
+            else {
+              fileName = fileName + data[i][j];
+            }
+          }
+    
+          fileNamesArr.push(fileName);
+          }
+        }
+      })
+    })
+  }
 
-  // allModNamesThumbs();
+  const thumbExists = function(fileNames) {
+    let doesExistsPromises = [];
 
-  fs.readdir(__dirname + "/whole_mod_library/mods", function (err, data) {
-    if(err) {
-      console.log("Error with reading /whole_mod_library/mods file names");
-      throw err;
-    }
+    return new Promise(function(resolve, reject) {
+      for(let i = 0; i <= fileNames.length; i++) {
+        if(i === fileNames.length) {
+          resolve(doesExistsPromises);
+        }
+        else if(fs.existsSync(__dirname + "/preview_images_thumb/" + fileNames[i] + ".png")) {
+          const freshPromise = new Promise(function(resolve, reject) {
+            fs.readFile(__dirname + "/preview_images_thumb/" + fileNames[i] + ".png", (err, data) => {
+              if(err) {
+                console.log("Error with freshPromise in thumbExists Promise.all");
+                throw err;
+              }
 
-    for(let i = 0; i < data.length; i++) {
-      // Make sure to not pass images into fileNamesArr
-      if(data[i] !== "images") {
-        let fileName = "";
+              modNamesThumbs["images"][fileNames[i]] = "data:image/png;base64," + data.toString("base64");
 
-      for(let j = 0; j < data[i].length; j++) {
-        if(data[i][j] === ".") {
-          j = data[i].length;
+              resolve();
+            })
+          })
+
+          doesExistsPromises.push(freshPromise);
         }
         else {
-          fileName = fileName + data[i][j];
+          modNamesThumbs["images"][fileNames[i]] = false;
         }
       }
-
-      fileNamesArr.push(fileName);
-      }
-    }
-
-    res.json(fileNamesArr);
-  })
+    })
+  }
 
   
+
+  readModDir().then(function(fileNames) {
+    return thumbExists(fileNames).then(function(data) {
+      return Promise.all(data).then(function() {
+        res.json(modNamesThumbs);
+      })
+    })
+  })
 })
 
 app.post('/download_unique_email', (req, res) => {
