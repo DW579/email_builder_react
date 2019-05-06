@@ -64,7 +64,6 @@ html, .Body {
   height: 100%;
   overflow: auto;
   background-color: grey;
-  opacity: 0.8;
 }
 
 .modalBox {
