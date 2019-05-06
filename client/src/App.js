@@ -4,7 +4,6 @@ import loadingIcon from './images/loading.gif';
 import './App.css';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
-// import JSZipUtils from 'jszip-utils';
 
 const zip = new JSZip();
 
@@ -516,7 +515,7 @@ class Main extends Component {
         <div className="container-fluid" style={{display: this.state.downloadLibraryPage ? 'none' : 'block'}}>
           <div className="row">
             <div className="col-lg-1">
-              <button type="button" onClick={this.uniqueEmail}>Back</button>
+              <button id="backButton" type="button" onClick={this.uniqueEmail}>Back</button>
             </div>
           </div>
           <div className="row" align="center">

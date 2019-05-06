@@ -93,6 +93,19 @@ html, .Body {
 }
 
 /* Unique Build */
+#backButton {
+  background-color: #F6F6F6;
+  color: #F80000;
+  font-family: Arial, Helvetica, sans-serif;
+  border: solid 1px #F80000;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 17px;
+  line-height: 19px;
+  margin: 10px 0 0 10px;
+}
+
 #uniqueTitle {
   font-size: 35px;
   font-weight: bold;
