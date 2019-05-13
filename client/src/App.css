@@ -76,6 +76,10 @@ html, .Body {
   border-radius: 25px;
 }
 
+#downloadSuccess {
+  font-style: italic;
+}
+
 /* The Close Button */
 .close {
   color: #030303;

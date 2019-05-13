@@ -67,8 +67,8 @@ class Date extends Component {
               <div className="col-sm">
               </div>
               <div className="col-sm">
-                <h1 className="title">Checking to see if Library is up to date</h1>
-                <p className="text">Lorem ipsum dolor sit amet, consect etur adipiscing elit. Maecenas ut felis id ex rhoncus aliquet donec efficitur quis.</p>
+                <h1 className="title">Checking to see if the Library is up to date</h1>
+                <p className="text">Please wait until the module library download is complete. If you get bored, try saying this 10 times fast: <span id="downloadSuccess">Six sleek swans swam swiftly southwards.</span></p>
               </div>
               <div className="col-sm">
               </div>
@@ -172,9 +172,10 @@ class LibraryButton extends Component {
               <div className="col-sm">
               </div>
               <div className="col-sm" align="center">
-                <h1 className="title" style={{display: this.state.icon ? 'block' : 'none'}}>Download In Progress</h1>
+                <h1 className="title" style={{display: this.state.icon ? 'block' : 'none'}}>Download in Progress</h1>
+                <p className="text" style={{display: this.state.icon ? 'block' : 'none'}}>Please wait until your download is complete. If you get bored, try saying this 10 times fast: <span id="downloadSuccess">Six sleek swans swam swiftly southwards.</span></p>
                 <h1 className="title" style={{display: this.state.icon ? 'none' : 'block'}}>Success! Your download is ready.</h1>
-                <p className="text">Lorem ipsum dolor sit amet, consect etur adipiscing elit. Maecenas ut felis id ex rhoncus aliquet donec efficitur quis.</p>
+                <p className="text" style={{display: this.state.icon ? 'none' : 'block'}}>Now it’s time to get back to work. Depending on what you’re up to, you can edit your build or build a new email.</p>
               </div>
               <div className="col-sm">
               </div>
@@ -422,7 +423,7 @@ class DragDropImage extends Component {
           <div className="col-lg-3"></div>
           <div className="col-lg-3"></div>
           <div className="col-lg-3">
-            <button id="uniqueReset" onClick={ev => this.resetMods(ev)}>RESET</button>
+            <button id="uniqueReset" onClick={ev => this.resetMods(ev)}>CLEAR ALL MODULES</button>
           </div>
           <div className="col-lg-3">
             <button id="uniqueDownload" onClick={ev => this.downloadEmail(ev)}>DOWNLOAD</button>
@@ -451,9 +452,10 @@ class DragDropImage extends Component {
               <div className="col-sm">
               </div>
               <div className="col-sm" align="center">
-                <h1 className="title" style={{display: this.state.icon ? 'block' : 'none'}}>Download In Progress</h1>
+                <h1 className="title" style={{display: this.state.icon ? 'block' : 'none'}}>Download in Progress</h1>
+                <p className="text" style={{display: this.state.icon ? 'block' : 'none'}}>Please wait until your download is complete. If you get bored, try saying this 10 times fast: <span id="downloadSuccess">Six sleek swans swam swiftly southwards.</span></p>
                 <h1 className="title" style={{display: this.state.icon ? 'none' : 'block'}}>Success! Your download is ready.</h1>
-                <p className="text">Lorem ipsum dolor sit amet, consect etur adipiscing elit. Maecenas ut felis id ex rhoncus aliquet donec efficitur quis.</p>
+                <p className="text" style={{display: this.state.icon ? 'none' : 'block'}}>Now it’s time to get back to work. Depending on what you’re up to, you can edit your build or build a new email.</p>
               </div>
               <div className="col-sm">
               </div>
@@ -521,16 +523,16 @@ class Main extends Component {
           <div className="row" align="center">
             <div className="col-lg-4"></div>
             <div className="col-lg-4">
-              <h3 id="uniqueTitle">Build Unique Email</h3>
+              <h3 id="uniqueTitle">Build a Unique Email</h3>
             </div>
             <div className="col-lg-4"></div>
           </div>
           <div className="row" align="center">
-            <div className="col-lg-3"></div>
-            <div className="col-lg-6">
-              <p id="uniqueText">Click and drag the preferred modules in your desired order.</p>
+            <div className="col-lg-1"></div>
+            <div className="col-lg-10">
+              <p id="uniqueText">Select any module from the left column by clicking the ADD button. To arrange their order, drag any module in the middle column up or down.</p>
             </div>
-            <div className="col-lg-3"></div>
+            <div className="col-lg-1"></div>
           </div>
           <DragDropImage></DragDropImage>
         </div>
@@ -551,15 +553,15 @@ class Footer extends Component {
 
 const downloadBox = {
   image: 'fas fa-cloud-download-alt fa-7x',
-  title: 'Download Hotwire Library',
-  text: 'Lorem ipsum dolor sit amet, consect etur adipiscing elit. Maecenas ut felis id ex rhoncus aliquet donec efficitur quis.',
+  title: 'Download the Hotwire Library',
+  text: 'Save the entire library of Hotwire modules locally to your\xa0computer.',
   button: 'DOWNLOAD NOW'
 }
 
 const uniqueBox = {
   image: 'fas fa-tools fa-7x',
-  title: 'Build Unique Email',
-  text: 'Lorem ipsum dolor sit amet, consect etur adipiscing elit. Maecenas ut felis id ex rhoncus aliquet donec efficitur quis.',
+  title: 'Build a Unique\xa0Email',
+  text: 'If you’re ready to start, click here to begin building a new\xa0email.',
   button: 'BUILD EMAIL'
 }
 
